@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">delta5</string>
+    <string name="title_activity_splash">SpashActivity</string>
+
+    // Splash screen
+    <string name="logo_desc">DeltaHacks V Splash image</string>
+    <string name="title_activity_login_register">LoginRegisterActivity</string>
+    <string name="action_settings">Settings</string>
 </resources>
