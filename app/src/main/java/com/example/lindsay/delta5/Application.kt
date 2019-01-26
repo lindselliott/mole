@@ -25,7 +25,6 @@ class Application: android.app.Application() {
         val config = RealmConfiguration.Builder()
                 .name("delta5.realm")
                 .directory(this.filesDir)
-                .deleteRealmIfMigrationNeeded()
 //                .schemaVersion(SCHEMA_VERSION)
 //                .migration(RealmMigrations())
                 .build()
@@ -35,6 +34,11 @@ class Application: android.app.Application() {
 
         realm = Realm.getDefaultInstance()
 
+        // Temporary for dev purposes
+        realm.beginTransaction()
+        realm.deleteAll()
+        realm.commitTransaction()
+
         getUser()
     }
 
@@ -43,6 +47,12 @@ class Application: android.app.Application() {
      */
     private fun getUser() {
         user = UserModel.getUser(realm)
+
+        if(user == null) {
+            if(UserModel.saveUser(realm, User(age = 22, sex = 0))) {
+                user = UserModel.getUser(realm)
+            }
+        }
     }
 }
 

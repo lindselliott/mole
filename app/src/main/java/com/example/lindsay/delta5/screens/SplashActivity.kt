@@ -23,7 +23,7 @@ class SplashActivity : AppCompatActivity() {
             Log.d("Delta", "User does not exist")
             switchToLoginRegister()
         } else {
-            Log.d("Delta", "User exists")
+            Log.d("Delta", "${application.user}")
             switchToMainApp()
         }
     }
