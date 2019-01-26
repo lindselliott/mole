@@ -1,4 +1,4 @@
-package com.example.lindsay.delta5
+package com.example.lindsay.delta5.screens
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
