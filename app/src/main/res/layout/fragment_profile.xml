@@ -90,9 +90,7 @@
             android:selectAllOnFocus="false"
             android:layout_below="@+id/email_title"
             android:singleLine="true"
-            //android:textCursorDrawable="@drawable/color_cursor"
             android:textSize="18sp"
-            //android:theme="@style/ColoredEditText"
             tools:targetApi="o" />
 
         <TextView
@@ -118,9 +116,7 @@
             android:selectAllOnFocus="false"
             android:layout_below="@+id/password_title"
             android:singleLine="true"
-            //android:textCursorDrawable="@drawable/color_cursor"
             android:textSize="18sp"
-            //android:theme="@style/ColoredEditText"
             tools:targetApi="o" />
 
         <EditText
@@ -137,9 +133,7 @@
             android:selectAllOnFocus="false"
             android:layout_below="@+id/password"
             android:singleLine="true"
-            //android:textCursorDrawable="@drawable/color_cursor"
             android:textSize="18sp"
-            //android:theme="@style/ColoredEditText"
             tools:targetApi="o" />
     </RelativeLayout>
 
