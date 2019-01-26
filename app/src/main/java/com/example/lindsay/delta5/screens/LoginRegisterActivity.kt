@@ -11,7 +11,7 @@ class LoginRegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_register)
-        setSupportActionBar(toolbar) // toolbar is the id of the appBar in the layout
+        setSupportActionBar(appBar) // toolbar is the id of the appBar in the layout
     }
 
 }

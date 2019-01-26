@@ -15,9 +15,17 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
+        goToLogin.setOnClickListener {
+            switchToLoginRegister()
+        }
+
+        goToMain.setOnClickListener {
+            switchToMainApp()
+        }
+
         Log.d("Delta", "In splash")
 
-        switchToMainApp()
+//        switchToMainApp()
     }
 
     private fun switchToMainApp() {
