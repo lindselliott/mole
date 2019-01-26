@@ -25,8 +25,9 @@ class Application: android.app.Application() {
         val config = RealmConfiguration.Builder()
                 .name("delta5.realm")
                 .directory(this.filesDir)
-                .schemaVersion(SCHEMA_VERSION)
-                .migration(RealmMigrations())
+                .deleteRealmIfMigrationNeeded()
+//                .schemaVersion(SCHEMA_VERSION)
+//                .migration(RealmMigrations())
                 .build()
 
         Realm.removeDefaultConfiguration()
@@ -54,32 +55,8 @@ class RealmMigrations : RealmMigration {
         val schema = realm.schema
 
         // Migrate to version 1: Add a new class.
-        // Example:
-        // public Person extends RealmObject {
-        //     private String name;
-        //     private int age;
-        //     // getters and setters left out for brevity
-        // }
         if (oldVersion == 0L) {
             schema.create("User")
-            oldVersion++
-        }
-
-        // Migrate to version 2: Add a primary key + object references
-        // Example:
-        // public Person extends RealmObject {
-        //     private String name;
-        //     @PrimaryKey
-        //     private int age;
-        //     private Dog favoriteDog;
-        //     private RealmList<Dog> dogs;
-        //     // getters and setters left out for brevity
-        // }
-        if (oldVersion == 1L) {
-            schema.get("Person")!!
-                    .addField("id", Long::class.javaPrimitiveType!!, FieldAttribute.PRIMARY_KEY)
-                    .addRealmObjectField("favoriteDog", schema.get("Dog")!!)
-                    .addRealmListField("dogs", schema.get("Dog")!!)
             oldVersion++
         }
     }
