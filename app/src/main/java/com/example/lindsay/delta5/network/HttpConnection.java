@@ -1,7 +1,10 @@
-package com.example.lindsay.delta5.utils;
+package com.example.lindsay.delta5.network;
 
 import android.os.AsyncTask;
 import android.util.Log;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -66,7 +69,23 @@ public class HttpConnection
 
                 try (Response response = client.newCall(request).execute()) {
 
-                    Log.d("deltahacks", response.body().string());
+
+                    String respStr = response.body().string();
+
+                    Gson gson = new GsonBuilder()
+                            .registerTypeAdapter(HttpResponce.class, new ResponceDeserializer())
+                            .registerTypeAdapter(HttpResponce.Prediction.class, new PredictionDeserializer())
+                            .create();
+
+
+                    Log.d("deltahacks", respStr);
+
+                    HttpResponce data = gson.fromJson(respStr, HttpResponce.class);
+
+                    for (int i = 0; i < data.predictions.length; i++) {
+                        Log.d("deltahacks", data.predictions[i].Tag + " : " + data.predictions[i].Probability);
+                    }
+
                     //return response.body().string();
                 }
                 catch (IOException e) {
