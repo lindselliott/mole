@@ -11,6 +11,9 @@ import android.provider.MediaStore
 import android.support.v4.app.Fragment
 import android.support.v4.content.FileProvider
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
+import com.example.lindsay.delta5.Application
 
 import com.example.lindsay.delta5.R
 import com.example.lindsay.delta5.utils.ImageUtils
@@ -35,11 +38,14 @@ class MainActivity : AppCompatActivity() {
 
     private var mImageUri: Uri? = null
     private var filePath: String? = null
+    private lateinit var deltaApplication: Application
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(appBar) // appBar is the id of the toolbar in the layout file
+
+        deltaApplication = application as Application
 
         initFragments()
     }
@@ -48,7 +54,7 @@ class MainActivity : AppCompatActivity() {
         fragments[Screen.DASHBOARD] = DashboardFragment.newInstance()
         fragments[Screen.NEW_ENTRY] = NewMoleFragment.newInstance()
         fragments[Screen.MOLE_INFO] = MoleInfoFragment.newInstance()
-        fragments[Screen.HISTORY] = MoleInfoFragment.newInstance() // FIXME
+        fragments[Screen.HISTORY] = MoleInfoFragment.newInstance() // FIXME: Make it the proper fragment
         fragments[Screen.PROFILE] = ProfileFragment.newInstance()
 
         switchFragment(Screen.DASHBOARD)
@@ -75,6 +81,23 @@ class MainActivity : AppCompatActivity() {
         fragmentTransaction.replace(R.id.fragment_container, fragment)
         fragmentTransaction.commit()
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_activity_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?) = when (item?.itemId) {
+        R.id.action_profile -> {
+            switchFragment(Screen.PROFILE, true)
+            true
+        }
+        else -> {
+            // If we got here, the user's action was not recognized.
+            // Invoke the superclass to handle it.
+            super.onOptionsItemSelected(item)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
