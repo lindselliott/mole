@@ -9,6 +9,7 @@ import android.media.ThumbnailUtils
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -150,6 +151,24 @@ class ImageUtils {
             val imageFileName = "ATTACH_$timeStamp.$extension"
 
             return File(directory, imageFileName)
+        }
+
+        fun shrinkImage(file: File) {
+
+            var origonal:Bitmap? = getImageBitmap(file.absolutePath)
+            var resized:Bitmap? = null
+
+
+            while (origonal != null && origonal.byteCount > 4194304) {
+                Log.d("deltahacks", "size: " + origonal.byteCount)
+
+                resized = Bitmap.createScaledBitmap(origonal, (origonal.getWidth()*0.8).toInt(), (origonal.getHeight()* 0.8).toInt(), true)
+                origonal = resized
+            }
+
+            if (resized != null) {
+                saveImage(file.absolutePath, resized)
+            }
         }
     }
 
