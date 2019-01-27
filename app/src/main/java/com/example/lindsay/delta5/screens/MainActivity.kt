@@ -1,4 +1,4 @@
-package com.example.lindsay.delta5
+package com.example.lindsay.delta5.screens
 
 import android.app.Activity
 import android.content.Intent
@@ -8,13 +8,12 @@ import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
-import android.provider.MediaStore.EXTRA_OUTPUT
 import android.support.v4.content.FileProvider
 import android.util.Log
-import android.widget.Toast
-import com.example.lindsay.delta5.Fragments.MoleInfoFragment
-import com.example.lindsay.delta5.Fragments.NewMoleFragment
+
+import com.example.lindsay.delta5.R
 import com.example.lindsay.delta5.utils.ImageUtils
+import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -26,18 +25,13 @@ class MainActivity : AppCompatActivity() {
     private var mImageUri: Uri? = null
     private var filePath: String? = null
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        setSupportActionBar(appBar) // appBar is the id of the toolbar in the layout file
 
-        val fragmentManager = supportFragmentManager
-        val fragmentTransaction = fragmentManager.beginTransaction()
-        val fragment = NewMoleFragment()
-        fragmentTransaction.replace(R.id.fragment_container, fragment)
-        fragmentTransaction.commit()
+        Log.d("Delta", "In main")
     }
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
@@ -89,15 +83,9 @@ class MainActivity : AppCompatActivity() {
 
                     }
 
-
-                    val fragmentManager = supportFragmentManager
-                    val fragmentTransaction = fragmentManager.beginTransaction()
-                    val fragment = MoleInfoFragment()
-                    fragmentTransaction.replace(R.id.fragment_container, fragment)
-                    fragmentTransaction.commit()
-
-
-
+                    supportFragmentManager.beginTransaction()
+                            .replace(R.id.fragment_container, MoleInfoFragment())
+                            .commit()
 
                     filePath = null
                     mImageUri = null
@@ -111,8 +99,6 @@ class MainActivity : AppCompatActivity() {
             ImageUtils.deleteImage(filePath!!)
         }
     }
-
-
 
     fun sendCameraIntent() {
 
@@ -134,7 +120,7 @@ class MainActivity : AppCompatActivity() {
                 Log.d("CAMERA_TEST", "grant  permissions to: $packageName")
             }
 
-            cameraIntent.putExtra(EXTRA_OUTPUT, mImageUri)
+            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri)
         }
         startActivityForResult(cameraIntent, REQUEST_IMAGE_CAPTURE)
     }

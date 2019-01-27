@@ -1,4 +1,4 @@
-package com.example.lindsay.delta5.Fragments
+package com.example.lindsay.delta5.screens
 
 import android.content.Intent
 import android.net.Uri
@@ -13,7 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import com.example.lindsay.delta5.MainActivity
+import com.example.lindsay.delta5.screens.MainActivity
 import com.example.lindsay.delta5.R
 import com.example.lindsay.delta5.utils.ImageUtils
 import java.io.File

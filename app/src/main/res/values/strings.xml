@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">delta5</string>
+    <string name="title_activity_splash">SpashActivity</string>
+
+    // Splash screen
+    <string name="logo_desc">DeltaHacks V Splash image</string>
+    <string name="title_activity_login_register">LoginRegisterActivity</string>
+    <string name="action_settings">Settings</string>
+
+    // Profile fragment
+    <string name="profile">Profile</string>
+    <string name="age">Age</string>
+    <string name="sex">Sex</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+
+    <string-array name="sex_type">
+        <item>Male</item>
+        <item>Female</item>
+        <item>Not Listed Above</item>
+    </string-array>
 </resources>
