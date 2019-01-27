@@ -175,6 +175,18 @@
                     android:text="Benign neoplasms or hamartomas composed of melanocytes. The majority of moles appear during the first two decades of a person's life."
                     android:textColor="@android:color/black"
                     android:textSize="16sp"
+                    android:paddingBottom="5dp"/>
+
+                <TextView
+                    android:id="@+id/subheading7"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/text6"
+                    android:paddingTop="15dp"
+                    android:textStyle="bold"
+                    android:text="Please Note: Mole is not a sufficient diagnosis tool, and should not be used independently of professional medical advice. If you have any concerns, please visit a doctor or dermatologist."
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
                     android:paddingBottom="20dp"/>
             </RelativeLayout>
 
