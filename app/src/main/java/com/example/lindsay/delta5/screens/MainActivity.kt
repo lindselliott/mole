@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
         switchFragment(Screen.DASHBOARD)
     }
 
-    private fun switchFragment(screen: Screen, vararg params: String) {
+    private fun switchFragment(screen: Screen, addToBackStack: Boolean = true, vararg params: String) {
 
         val fragment = fragments[screen] ?: return
         val fragmentTransaction = supportFragmentManager.beginTransaction()
@@ -67,6 +67,11 @@ class MainActivity : AppCompatActivity() {
             }
             fragment.arguments = bundle
         }
+        
+        if(addToBackStack) {
+            fragmentTransaction.addToBackStack(null)
+        }
+
         fragmentTransaction.replace(R.id.fragment_container, fragment)
         fragmentTransaction.commit()
 
