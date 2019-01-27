@@ -11,9 +11,8 @@ import android.provider.MediaStore
 import android.support.v4.app.Fragment
 import android.support.v4.content.FileProvider
 import android.util.Log
+import android.view.MenuItem
 import com.example.lindsay.delta5.Application
-
-import com.example.lindsay.delta5.R
 import com.example.lindsay.delta5.entities.Mole
 import com.example.lindsay.delta5.models.MoleModel
 import com.example.lindsay.delta5.utils.DateUtils
@@ -23,6 +22,8 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.util.*
+
+import com.example.lindsay.delta5.R
 
 class MainActivity : AppCompatActivity() {
 
@@ -40,6 +41,7 @@ class MainActivity : AppCompatActivity() {
 
     private var mImageUri: Uri? = null
     private var filePath: String? = null
+    private lateinit var deltaApplication: Application
 
     private  var frag: Fragment? = null
 
@@ -49,6 +51,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(appBar) // appBar is the id of the toolbar in the layout file
 
+        deltaApplication = application as Application
+
         initFragments()
     }
 
@@ -56,14 +60,15 @@ class MainActivity : AppCompatActivity() {
         fragments[Screen.DASHBOARD] = DashboardFragment.newInstance()
         fragments[Screen.NEW_ENTRY] = NewMoleFragment.newInstance()
         fragments[Screen.MOLE_INFO] = MoleInfoFragment.newInstance()
-        fragments[Screen.HISTORY] = MoleInfoFragment.newInstance() // FIXME
+        fragments[Screen.HISTORY] = MoleInfoFragment.newInstance() // FIXME: Make it the proper fragment
         fragments[Screen.PROFILE] = ProfileFragment.newInstance()
 
         switchFragment(Screen.DASHBOARD)
     }
 
-    private fun switchFragment(screen: Screen, addToBackStack: Boolean = true, vararg params: String) {
+    open fun switchFragment(screen: Screen, addToBackStack: Boolean = true, vararg params: String) {
 
+        Log.d("Delta", "Transaction begin")
         val fragment = fragments[screen] ?: return
         val fragmentTransaction = supportFragmentManager.beginTransaction()
 
@@ -83,6 +88,18 @@ class MainActivity : AppCompatActivity() {
         fragmentTransaction.replace(R.id.fragment_container, fragment)
         fragmentTransaction.commit()
 
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?) = when (item?.itemId) {
+        R.id.action_profile -> {
+            switchFragment(Screen.PROFILE, true)
+            true
+        }
+        else -> {
+            // If we got here, the user's action was not recognized.
+            // Invoke the superclass to handle it.
+            super.onOptionsItemSelected(item)
+        }
     }
 
     override fun onResume() {
@@ -113,14 +130,13 @@ class MainActivity : AppCompatActivity() {
                 var selectedImage: Uri? = null
 
 
-                Log.d("deltahacks", "image taken ")
+                Log.d("Delta", "image taken ")
                 //Log.d("deltahacks", filePath)
 
 
                 if (resultCode == Activity.RESULT_OK) {
 
                     if (mImageUri != null) {
-                        Log.d("CAMERA_TEST", "revoke permissions")
                         revokeUriPermission(mImageUri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
 
                         imageFile = File(filePath)
@@ -153,7 +169,7 @@ class MainActivity : AppCompatActivity() {
                     val uuid = UUID.randomUUID().toString()
 
                     if (imageFile != null) {
-                        Log.d("deltahacks", "image exists ")
+                        Log.d("Delta", "image exists ")
 
                         var mole = Mole(
                             uuid,
@@ -166,6 +182,12 @@ class MainActivity : AppCompatActivity() {
 
                         MoleModel.saveMole( (application as Application).getRealm(), mole)
                     }
+
+
+//                    switchFragment(Screen.MOLE_INFO)
+
+                    filePath = null
+                    mImageUri = null
 
                     var frag = MoleInfoFragment()
                     var bundle = Bundle();
@@ -183,9 +205,14 @@ class MainActivity : AppCompatActivity() {
             }
         }
         if (resultCode == RESULT_CANCELED && filePath != null) {
-            Log.d("deltahacks", "Deleting temp file after cancel.")
+            Log.d("Delta", "Deleting temp file after cancel.")
             ImageUtils.deleteImage(filePath!!)
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        Log.d("Delta", "onSaveInstanceState Called")
     }
 
     fun sendCameraIntent() {
