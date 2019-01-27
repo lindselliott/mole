@@ -15,7 +15,7 @@ public class HttpResponce
     String iteration;
     String created;
 
-    Prediction[] predictions;
+    public Prediction[] predictions;
 
 
     public HttpResponce(String id, String project, String iteration, String created, Prediction[] predictions) {
@@ -26,7 +26,7 @@ public class HttpResponce
         this.predictions = predictions;
     }
 
-    static class Prediction implements Parcelable
+    public static class Prediction implements Parcelable
     {
         @Override
         public int describeContents() {
@@ -63,8 +63,8 @@ public class HttpResponce
 
 
         String tagId;
-        String tag;
-        float probability;
+        public String tag;
+        public float probability;
 
 
         public Prediction(String tagId, String tag, float probability) {

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -128,7 +129,7 @@ public class HttpConnection
                     intent.putExtra(SUCCESS_EXTRA, true);
                 }
 
-                context.sendBroadcast(intent);
+                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
             }
         }
 

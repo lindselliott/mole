@@ -1,7 +1,10 @@
 package com.example.lindsay.delta5.screens
 
 import android.app.Activity
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
@@ -11,6 +14,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.content.FileProvider
+import android.support.v4.content.LocalBroadcastManager
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
@@ -20,11 +24,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.Toast
 import com.example.lindsay.delta5.Application
 import com.example.lindsay.delta5.screens.MainActivity
 import com.example.lindsay.delta5.R
 import com.example.lindsay.delta5.entities.Mole
 import com.example.lindsay.delta5.models.MoleModel
+import com.example.lindsay.delta5.network.HttpConnection
+import com.example.lindsay.delta5.network.HttpResponce
 import com.example.lindsay.delta5.utils.DateUtils
 import com.example.lindsay.delta5.utils.ImageUtils
 import io.realm.RealmObject
@@ -65,6 +72,10 @@ class MoleInfoFragment : Fragment() {
         mainActivity = activity as MainActivity
         mainActivity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        LocalBroadcastManager.getInstance(mainActivity).registerReceiver(
+                broadcastReceiver, IntentFilter(HttpConnection.AI_RESPONCE_ACTION));
+
+
         if(arguments != null && !arguments!!.isEmpty) {
             Log.d("deltahacks", "There are arguments so set up the mole from the database")
         } else {
@@ -84,6 +95,7 @@ class MoleInfoFragment : Fragment() {
 
         sendCameraIntent()
     }
+    
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View {
         // Inflate the layout for this fragment
@@ -92,6 +104,12 @@ class MoleInfoFragment : Fragment() {
         imageView = view.findViewById(R.id.mole_image)
 
         return view
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        LocalBroadcastManager.getInstance(mainActivity).unregisterReceiver(broadcastReceiver);
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -181,4 +199,33 @@ class MoleInfoFragment : Fragment() {
         }
         startActivityForResult(cameraIntent, REQUEST_IMAGE_CAPTURE)
     }
-}
+
+
+    private val broadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            val action = intent.action
+            if (action.equals(HttpConnection.AI_RESPONCE_ACTION)) {
+
+                //progressBar.visibility = View.GONE
+
+                if (!intent.getBooleanExtra(HttpConnection.SUCCESS_EXTRA, false)) {
+                    Toast.makeText(mainActivity, "Error", Toast.LENGTH_SHORT).show()
+                } else {
+
+                    var str = ""
+
+                    var predictions :  ArrayList<HttpResponce.Prediction>
+
+                    predictions = intent.getParcelableArrayListExtra(HttpConnection.PREDICTIONS_EXTRA)
+
+                    for (p in predictions) {
+                        str += p.tag + " : " + p.probability + "\n"
+                    }
+
+                    //detail_text.setText(str)
+
+                }
+            }
+        }
+
+    }
