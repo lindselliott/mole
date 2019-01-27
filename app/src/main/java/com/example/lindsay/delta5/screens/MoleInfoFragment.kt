@@ -109,6 +109,7 @@ class MoleInfoFragment : Fragment() {
 
         mole_location_field.setText(mole!!.bodyLocation)
         mole_nickname_field.setText(mole!!.moleName)
+        details_field.setText(mole!!.notes)
         mole_date_taken_field.setText(DateUtils.getFormattedStringFromEpochTime(mole!!.date!!))
 
         mole!!.addChangeListener<RealmObject> { _ ->
@@ -130,7 +131,7 @@ class MoleInfoFragment : Fragment() {
                 mole!!._ID,
                 mole_nickname_field.text.toString(),
                 mole_location_field.text.toString(),
-                mole?.notes ?: "Cheese",
+                details_field.text.toString(),
                 mole!!.imagePath,
                 mole!!.date,
                 mole!!.confidenceMalignant,
@@ -268,7 +269,6 @@ class MoleInfoFragment : Fragment() {
 
                     details_field.setText(str)
 
-                    mole!!.notes = str
                     saveMole()
 
                     Log.d("deltahacks", str)
