@@ -11,13 +11,18 @@ import android.provider.MediaStore
 import android.support.v4.app.Fragment
 import android.support.v4.content.FileProvider
 import android.util.Log
+import com.example.lindsay.delta5.Application
 
 import com.example.lindsay.delta5.R
+import com.example.lindsay.delta5.entities.Mole
+import com.example.lindsay.delta5.models.MoleModel
+import com.example.lindsay.delta5.utils.DateUtils
 import com.example.lindsay.delta5.utils.ImageUtils
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -35,6 +40,9 @@ class MainActivity : AppCompatActivity() {
 
     private var mImageUri: Uri? = null
     private var filePath: String? = null
+
+    private  var frag: Fragment? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,6 +83,26 @@ class MainActivity : AppCompatActivity() {
         fragmentTransaction.replace(R.id.fragment_container, fragment)
         fragmentTransaction.commit()
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+
+        // this is a hacky work arround to get past the fact that onActivityResult runs before
+        // onResume, and the application context may not exist yet, and you can not swap ui elements yet
+        //https://issuetracker.google.com/issues/36929762
+        // https://stackoverflow.com/questions/4253118/is-onresume-called-before-onactivityresult
+        Log.d("deltahacks", "onresume")
+        if (frag != null) {
+            Log.d("deltahacks", "swap frag")
+
+            supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, frag!!)
+                    .addToBackStack(null)
+                    .commit()
+            frag = null;
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -122,19 +150,34 @@ class MainActivity : AppCompatActivity() {
 
                     // use imageFile
 
+                    val uuid = UUID.randomUUID().toString()
+
                     if (imageFile != null) {
                         Log.d("deltahacks", "image exists ")
 
+                        var mole = Mole(
+                            uuid,
+                                "name_placeholder",
+                                "body_placeholder",
+                                "notes_holder",
+                                imageFile.absolutePath,
+                                DateUtils.currentDate()
+                        )
+
+                        MoleModel.saveMole( (application as Application).getRealm(), mole)
                     }
 
-                    supportFragmentManager.beginTransaction()
-                            .replace(R.id.fragment_container, MoleInfoFragment())
-                            .addToBackStack(null)
-                            .commit()
+                    var frag = MoleInfoFragment()
+                    var bundle = Bundle();
+                    bundle.putString(MoleInfoFragment.MOLE_KEY, uuid)
+                    frag.arguments = bundle
+
+
+                    Log.d("deltahacks", "onActivityResult - frag ready")
 
                     filePath = null
                     mImageUri = null
-                    return
+                   // return
                 }
 
             }
