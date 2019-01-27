@@ -1,17 +1,16 @@
 package com.example.lindsay.delta5
 
+import com.example.lindsay.delta5.entities.Mole
 import com.example.lindsay.delta5.entities.User
+import com.example.lindsay.delta5.models.MoleModel
 import com.example.lindsay.delta5.models.UserModel
-import io.realm.DynamicRealm
-import io.realm.Realm
-import io.realm.RealmConfiguration
-import io.realm.RealmMigration
-
+import io.realm.*
 
 
 class Application: android.app.Application() {
     private lateinit var realm: Realm
     open var user: User? = null
+    open lateinit var moles: RealmResults<Mole>
 
     override fun onCreate() {
         super.onCreate()
@@ -38,7 +37,12 @@ class Application: android.app.Application() {
         realm.deleteAll()
         realm.commitTransaction()
 
+        loadDatabase()
+    }
+
+    private fun loadDatabase() {
         getUser()
+        loadMoles()
     }
 
     /**
@@ -52,6 +56,10 @@ class Application: android.app.Application() {
                 user = UserModel.getUser(realm)
             }
         }
+    }
+
+    fun loadMoles() {
+        moles = MoleModel.getAllMoles(realm)
     }
 
     fun getRealm(): Realm {

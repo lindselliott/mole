@@ -10,22 +10,27 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.content.FileProvider
 import android.support.v4.view.ViewPager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import com.example.lindsay.delta5.Application
 import com.example.lindsay.delta5.screens.MainActivity
 import com.example.lindsay.delta5.R
 import com.example.lindsay.delta5.entities.Mole
+import com.example.lindsay.delta5.models.MoleModel
 import com.example.lindsay.delta5.utils.ImageUtils
 import io.realm.RealmBaseAdapter
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 import kotlinx.android.synthetic.main.fragment_dashboard.view.*
+import kotlinx.android.synthetic.main.mole_list_layout.*
 import java.io.File
 import java.io.IOException
+import java.util.*
 
 
 /**
@@ -45,15 +50,24 @@ class DashboardFragment : Fragment() {
         mainActivity = activity as MainActivity
 
         add_new_mole.setOnClickListener {
-            mainActivity.sendCameraIntent()
+//            mainActivity.sendCameraIntent()
+
+            // For testing this is going to create a new mole and add it to the database
+            MoleModel.saveMole((mainActivity.application as Application).getRealm(), Mole(
+                    _ID = UUID.randomUUID().toString(),
+                    moleName = "Lucas",
+                    bodyLocation = "Arm",
+                    notes = "This is a mole"
+            ))
         }
 
-//        moleAdapter = MoleHistoryPlantAdapter(mainActivity.application.getMoles())
+        moleAdapter = MoleHistoryPlantAdapter((mainActivity.application as Application).moles)
 
-//        moleDataObserver = MoleDataObserver()
-//        moleAdapter.registerDataSetObserver(moleDataObserver)
-//        moleList = activity!!.findViewById(layoutID)
-//        plantList.adapter = plantAdapter
+        Log.d("deltahacks", "${moleAdapter.count}")
+
+        moleDataObserver = MoleDataObserver()
+        moleAdapter.registerDataSetObserver(moleDataObserver)
+        mole_history_list.adapter = moleAdapter
 
     }
 
@@ -74,6 +88,7 @@ class DashboardFragment : Fragment() {
             super.onChanged()
 
             // Set the no moles message to be visible or not
+            Log.d("deltahacks", "Changed")
         }
     }
 
@@ -81,11 +96,14 @@ class DashboardFragment : Fragment() {
 
         private inner class ViewHolder {
             internal var moleName: TextView? = null
+            internal var moleImage: ImageView? = null
         }
 
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
             lateinit var returnView: View
             lateinit var viewHolder: ViewHolder
+
+            Log.d("deltahacks", "There is a view that we want to seee")
 
             // Setup the view so we can edit the internal fields
             if(convertView == null) {
@@ -93,6 +111,7 @@ class DashboardFragment : Fragment() {
 
                 viewHolder = ViewHolder()
                 viewHolder.moleName = returnView.findViewById(R.id.mole_name)
+                viewHolder.moleImage = returnView.findViewById(R.id.mole_image)
 
                 returnView.tag = viewHolder
             } else {
@@ -106,13 +125,15 @@ class DashboardFragment : Fragment() {
             viewHolder.moleName?.text = mole.moleName
 
             if(mole.imagePath == null) {
-//                viewHolder.plantImage?.setImageResource(R.drawable.flower)
+//                viewHolder.moleImage?.setImageResource(R.drawable.flower)
+                viewHolder.moleImage?.setImageResource(android.R.drawable.btn_radio)
             } else {
-//                viewHolder.plantImage?.setImageBitmap(ImageUtils.getImageBitmap(plant.imagePath, 150))
+                viewHolder.moleImage?.setImageBitmap(ImageUtils.getImageBitmap(mole.imagePath, 150))
 
-//                if(viewHolder.plantImage?.drawable == null) {
-//                    viewHolder.plantImage?.setImageResource(R.drawable.flower)
-//                }
+                if(viewHolder.moleImage?.drawable == null) {
+//                    viewHolder.moleImage?.setImageResource(R.drawable.flower)
+                    viewHolder.moleImage?.setImageResource(android.R.drawable.btn_radio)
+                }
             }
 
             return returnView
