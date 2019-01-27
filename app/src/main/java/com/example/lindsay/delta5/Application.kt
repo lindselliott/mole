@@ -5,8 +5,6 @@ import com.example.lindsay.delta5.models.UserModel
 import io.realm.DynamicRealm
 import io.realm.Realm
 import io.realm.RealmConfiguration
-import io.realm.FieldAttribute
-import io.realm.RealmSchema
 import io.realm.RealmMigration
 
 
@@ -25,6 +23,7 @@ class Application: android.app.Application() {
         val config = RealmConfiguration.Builder()
                 .name("delta5.realm")
                 .directory(this.filesDir)
+                .deleteRealmIfMigrationNeeded()         // temp
 //                .schemaVersion(SCHEMA_VERSION)
 //                .migration(RealmMigrations())
                 .build()
@@ -54,6 +53,11 @@ class Application: android.app.Application() {
             }
         }
     }
+
+    fun getRealm(): Realm {
+        return realm
+    }
+
 }
 
 class RealmMigrations : RealmMigration {

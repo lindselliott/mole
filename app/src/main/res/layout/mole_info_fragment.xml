@@ -12,8 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Location on Body:"
-        app:layout_constraintStart_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"/>
+        app:layout_constraintStart_toStartOf="@+id/mole_image"
+        app:layout_constraintTop_toBottomOf="@+id/mole_image"/>
 
     <TextView
         android:id="@+id/textView2"
@@ -43,7 +43,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView3"/>
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/mole_image"
         android:layout_width="324dp"
         android:layout_height="240dp"
         android:layout_marginEnd="8dp"

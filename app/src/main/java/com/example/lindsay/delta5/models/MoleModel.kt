@@ -14,7 +14,7 @@ import io.realm.RealmResults
  */
 class MoleModel {
     companion object {
-        fun removePlant(realm: Realm, mole: Mole): Boolean {
+        fun removeMole(realm: Realm, mole: Mole): Boolean {
             if (mole.imagePath != null) {
                 ImageUtils.deleteImage(mole.imagePath!!)
             }
@@ -35,7 +35,7 @@ class MoleModel {
             return true
         }
 
-        fun savePlant(realm: Realm, mole: Mole): Boolean {
+        fun saveMole(realm: Realm, mole: Mole): Boolean {
             try {
                 realm.beginTransaction()
                 realm.insertOrUpdate(mole)
@@ -51,6 +51,9 @@ class MoleModel {
             return true
         }
 
+        fun getMole(realm: Realm, id: String): Mole? {
+            return realm.where(Mole::class.java).equalTo("_ID", id).findFirst()
+        }
 
         fun getAllMoles(realm: Realm): RealmResults<Mole> {
             return realm.where(Mole::class.java).findAll()
