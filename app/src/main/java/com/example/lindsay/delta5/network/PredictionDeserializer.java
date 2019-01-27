@@ -1,7 +1,5 @@
 package com.example.lindsay.delta5.network;
 
-import android.util.Log;
-
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -23,8 +21,6 @@ public class PredictionDeserializer implements JsonDeserializer<HttpResponce.Pre
 
 
         JsonObject postObject = json.getAsJsonObject();
-
-        Log.d("deltahacks", postObject.toString());
 
         String tagId = postObject.get("tagId").getAsString();
         String tag = postObject.get("tagName").getAsString();

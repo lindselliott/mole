@@ -1,5 +1,8 @@
 package com.example.lindsay.delta5.network;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * @author Marshall Asch
  * @version 1.0
@@ -7,33 +10,67 @@ package com.example.lindsay.delta5.network;
  */
 public class HttpResponce
 {
-    String Id;
-    String Project;
-    String Iteration;
-    String Created;
+    String id;
+    String project;
+    String iteration;
+    String created;
 
     Prediction[] predictions;
 
 
     public HttpResponce(String id, String project, String iteration, String created, Prediction[] predictions) {
-        Id = id;
-        Project = project;
-        Iteration = iteration;
-        Created = created;
+        this.id = id;
+        this.project = project;
+        this.iteration = iteration;
+        this.created = created;
         this.predictions = predictions;
     }
 
-    static class Prediction {
+    static class Prediction implements Parcelable
+    {
+        @Override
+        public int describeContents() {
+            return 0;
+        }
 
-        String TagId;
-        String Tag;
-        float Probability;
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+
+            dest.writeString(tagId);
+            dest.writeString(tag);
+            dest.writeFloat(probability);
+        }
+
+        private Prediction(Parcel in) {
+
+            tagId = in.readString();
+            tag = in.readString();
+            probability = in.readFloat();
+        }
+
+
+        public static final Creator<Prediction> CREATOR = new Creator<Prediction>() {
+            @Override
+            public Prediction createFromParcel(Parcel in) {
+                return new Prediction(in);
+            }
+
+            @Override
+            public Prediction[] newArray(int size) {
+                return new Prediction[size];
+            }
+        };
+
+
+        String tagId;
+        String tag;
+        float probability;
 
 
         public Prediction(String tagId, String tag, float probability) {
-            TagId = tagId;
-            Tag = tag;
-            Probability = probability;
+            this.tagId = tagId;
+            this.tag = tag;
+            this.probability = probability;
         }
     }
 

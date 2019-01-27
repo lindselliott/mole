@@ -62,7 +62,7 @@ class DashboardFragment : Fragment() {
 
             HttpConnection.writeBytesToFile(am.open("mole_tmp.jpg"), f)
 
-            HttpConnection().post(f)
+            HttpConnection().post(f, mainActivity)
         }
 
     }
