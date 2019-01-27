@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -191,6 +192,12 @@ class MoleInfoFragment : Fragment() {
                     // use imageFile
 
                     if (imageFile != null) {
+
+
+                        // shrink the file if the image is too big
+                        ImageUtils.shrinkImage(imageFile)
+
+
                         (mainActivity.application as Application).realm.beginTransaction()
                         mole!!.imagePath = imageFile.absolutePath
                         (mainActivity.application as Application).realm.commitTransaction()
