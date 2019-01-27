@@ -1,19 +1,16 @@
 package com.example.lindsay.delta5
 
+import com.example.lindsay.delta5.entities.Mole
 import com.example.lindsay.delta5.entities.User
+import com.example.lindsay.delta5.models.MoleModel
 import com.example.lindsay.delta5.models.UserModel
-import io.realm.DynamicRealm
-import io.realm.Realm
-import io.realm.RealmConfiguration
-import io.realm.FieldAttribute
-import io.realm.RealmSchema
-import io.realm.RealmMigration
-
+import io.realm.*
 
 
 class Application: android.app.Application() {
-    var user: User? = null
     private lateinit var realm: Realm
+    open var user: User? = null
+    open lateinit var moles: RealmResults<Mole>
 
     override fun onCreate() {
         super.onCreate()
@@ -25,6 +22,7 @@ class Application: android.app.Application() {
         val config = RealmConfiguration.Builder()
                 .name("delta5.realm")
                 .directory(this.filesDir)
+                .deleteRealmIfMigrationNeeded()         // temp
 //                .schemaVersion(SCHEMA_VERSION)
 //                .migration(RealmMigrations())
                 .build()
@@ -40,6 +38,12 @@ class Application: android.app.Application() {
         realm.commitTransaction()
 
         loadUser()
+        loadDatabase()
+    }
+
+    private fun loadDatabase() {
+        getUser()
+        loadMoles()
     }
 
     fun loadUser() {
@@ -60,6 +64,15 @@ class Application: android.app.Application() {
     fun getRealm(): Realm {
         return this.realm
     }
+
+    fun loadMoles() {
+        moles = MoleModel.getAllMoles(realm)
+    }
+
+    fun getRealm(): Realm {
+        return realm
+    }
+
 }
 
 class RealmMigrations : RealmMigration {

@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.lindsay.delta5">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL"/>
+    <!--<uses-permission android:name="android.permission.CAMERA" />-->
+
+
     <application
         android:name=".Application"
         android:allowBackup="true"
@@ -12,6 +17,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".screens.SplashActivity"
+            android:noHistory="true"
             android:label="@string/title_activity_splash"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -20,7 +26,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".screens.MainActivity"></activity>
+
+        <provider
+            android:name=".FileProvider"
+            android:authorities="com.example.lindsay.delta5"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"></meta-data>
+        </provider>
+        <activity
+            android:name=".screens.MainActivity"
+            android:theme="@style/AppTheme"></activity>
         <activity
             android:name=".screens.LoginRegisterActivity"
             android:label="@string/title_activity_login_register"
