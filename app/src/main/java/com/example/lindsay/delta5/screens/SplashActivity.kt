@@ -19,11 +19,11 @@ class SplashActivity : AppCompatActivity() {
 
         application = getApplication() as Application // Grab the application and cast it to our application class
 
-        if(application.user == null) {
+        if(application.loadUser() == null) {
             Log.d("Delta", "User does not exist")
             switchToLoginRegister()
         } else {
-            Log.d("Delta", "${application.user}")
+            Log.d("Delta", "${application.loadUser()}")
             switchToMainApp()
         }
     }

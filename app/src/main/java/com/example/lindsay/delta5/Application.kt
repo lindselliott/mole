@@ -37,6 +37,7 @@ class Application: android.app.Application() {
         realm.deleteAll()
         realm.commitTransaction()
 
+        loadUser()
         loadDatabase()
     }
 
@@ -45,17 +46,23 @@ class Application: android.app.Application() {
         loadMoles()
     }
 
-    /**
-     * Will load the user information if it exists and will create a new user if there is none in yet
-     */
-    private fun getUser() {
-        user = UserModel.getUser(realm)
+    fun loadUser() {
+        user = UserModel.loadUser(realm)
 
         if(user == null) {
             if(UserModel.saveUser(realm, User(age = 22, sex = 0))) {
-                user = UserModel.getUser(realm)
+                user = UserModel.loadUser(realm)
             }
         }
+
+    }
+
+//    fun getUser(): User {
+//        return this.user
+//    }
+
+    fun getRealm(): Realm {
+        return this.realm
     }
 
     fun loadMoles() {

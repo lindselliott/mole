@@ -6,7 +6,6 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-
         <item name="android:background">@color/white</item>
     </style>
 
@@ -18,11 +17,6 @@
 
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">54dp</item>
-    </style>
-
-    // Text input styles
-    <style name="textInput">
-        <item name="android:textColor">@color/red</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
