@@ -29,12 +29,11 @@
             style="@style/textInput"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
             android:text="Date Taken:"
             app:layout_constraintStart_toStartOf="@+id/mole_image"
-            app:layout_constraintTop_toBottomOf="@+id/mole_image" />
+            app:layout_constraintTop_toBottomOf="@+id/upload_button"/>
 
         <EditText
             android:id="@+id/mole_date_taken_field"
@@ -117,6 +116,20 @@
             android:inputType="textMultiLine"
             app:layout_constraintStart_toStartOf="@+id/textView4"
             app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+        <Button
+            android:id="@+id/upload_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Upload"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mole_image"/>
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

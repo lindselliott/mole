@@ -115,6 +115,14 @@ class MoleInfoFragment : Fragment() {
 
             mole_image.setImageBitmap(ImageUtils.getImageBitmap(mole!!.imagePath))
         }
+
+        upload_button.setOnClickListener{ _ ->
+
+            var file = File(mole!!.imagePath)
+            HttpConnection().post(file, mainActivity)
+
+            Log.d("deltahacks", "uploading...")
+        }
     }
 
     open fun saveMole() {
@@ -122,7 +130,7 @@ class MoleInfoFragment : Fragment() {
                 mole!!._ID,
                 mole_nickname_field.text.toString(),
                 mole_location_field.text.toString(),
-                "Cheddar notes",
+                mole?.notes ?: "Cheese",
                 mole!!.imagePath,
                 mole!!.date,
                 mole!!.confidenceMalignant,
@@ -258,7 +266,10 @@ class MoleInfoFragment : Fragment() {
                         str += p.tag + " : " + p.probability + "\n"
                     }
 
-                    //detail_text.setText(str)
+                    details_field.setText(str)
+
+                    mole!!.notes = str
+                    saveMole()
 
                     Log.d("deltahacks", str)
 
