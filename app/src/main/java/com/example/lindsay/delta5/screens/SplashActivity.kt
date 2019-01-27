@@ -12,6 +12,7 @@ import com.example.lindsay.delta5.R
 class SplashActivity : AppCompatActivity() {
     private lateinit var application: Application
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
