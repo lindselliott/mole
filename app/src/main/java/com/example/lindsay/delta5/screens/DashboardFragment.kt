@@ -17,6 +17,7 @@ import io.realm.RealmResults
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 
 import com.example.lindsay.delta5.R
+import com.example.lindsay.delta5.utils.DateUtils
 
 
 /**
@@ -121,7 +122,7 @@ class DashboardFragment : Fragment() {
             val mole = adapterData!![position]
 
             viewHolder.moleName?.text = mole.moleName
-            viewHolder.dateTaken?.text = "${mole.date}"
+            viewHolder.dateTaken?.text = DateUtils.getFormattedStringFromEpochTime(mole.date!!)
 
             if(mole.imagePath == null) {
 //                viewHolder.moleImage?.setImageResource(R.drawable.flower)

@@ -170,6 +170,8 @@ class MoleInfoFragment : Fragment() {
             mainActivity.menu!!.findItem(R.id.edit_mole).isVisible = false
         }
 
+        mole = null
+
         mainActivity.supportActionBar?.setDisplayHomeAsUpEnabled(false)
     }
 
