@@ -25,13 +25,6 @@ class ProfileFragment : Fragment() {
         user = (mainActivity.application as Application).user!!
 
         setAllFields()
-        sex_spinner.adapter = ArrayAdapter(
-                activity,
-                R.layout.sex_spinner_item,
-                resources.getStringArray(R.array.sex_type)
-        )
-
-
 }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,19 +54,11 @@ class ProfileFragment : Fragment() {
         age_text.setText("${user.age}")
 
         // Sex
-
-
-//
-//        var adapter = ArrayAdapter.createFromResource(activity, R.array.sex_type, android.R.layout.simple_spinner_item)
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-//
-//        sex_spinner.adapter = adapter
-
-//        sex_spinner.adapter = ArrayAdapter(
-//                activity,
-//                R.layout.support_simple_spinner_dropdown_item,
-//                resources.getStringArray(R.array.sex_type)
-//        )
+        sex_spinner.adapter = ArrayAdapter(
+                activity,
+                R.layout.sex_spinner_item,
+                resources.getStringArray(R.array.sex_type)
+        )
     }
 
     private fun saveUser(): Boolean {
