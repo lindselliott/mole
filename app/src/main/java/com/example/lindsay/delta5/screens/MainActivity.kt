@@ -86,10 +86,28 @@ class MainActivity : AppCompatActivity() {
         }
         R.id.save_mole -> {
             (supportFragmentManager.findFragmentById(R.id.fragment_container) as MoleInfoFragment).saveMole()
+            (supportFragmentManager.findFragmentById(R.id.fragment_container) as MoleInfoFragment).toggleEditMode()
+            true
+        }
+        R.id.edit_mole -> {
+            (supportFragmentManager.findFragmentById(R.id.fragment_container) as MoleInfoFragment).toggleEditMode()
             true
         }
         android.R.id.home -> {
+
+            if((supportFragmentManager.findFragmentById(R.id.fragment_container)) is ProfileFragment) {
+                (supportFragmentManager.findFragmentById(R.id.fragment_container) as ProfileFragment).saveUser()
+            }
+
             supportFragmentManager.popBackStack()
+            supportActionBar?.setDisplayHomeAsUpEnabled(false)
+
+            if(menu != null) {
+                menu!!.findItem(R.id.action_profile).isVisible = true
+                menu!!.findItem(R.id.save_mole).isVisible = false
+                menu!!.findItem(R.id.edit_mole).isVisible = false
+            }
+
             true
         }
         else -> {

@@ -18,6 +18,7 @@
 
     // Menu
     <string name="save">Save</string>
+    <string name="edit">Edit</string>
 
     <string-array name="sex_type">
         <item>Male</item>

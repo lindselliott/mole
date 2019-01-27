@@ -87,7 +87,6 @@ class DashboardFragment : Fragment() {
             super.onChanged()
 
             // Set the no moles message to be visible or not
-            Log.d("deltahacks", "Changed")
         }
     }
 
