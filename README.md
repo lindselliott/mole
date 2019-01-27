@@ -13,7 +13,7 @@ The application also allows users to track blemishes over time, providing update
 ## How we built it
 Möle is built for Android devices, using Kotlin/Java and a Realm database. The image processing agent was built using Azure's Custom Vision Model, trained using HAM10000, a neural network training dataset published in the Harvard Dataverse, with over ten thousand images of common skin lesions.
 
-For more information, please visit: https://bit.ly/2UlvD7P
+For more information on our dataset, please visit: https://bit.ly/2UlvD7P
 
 ## Challenges we ran into
 All team members were unfamiliar with the projects technical stack at the beginning of this competition. The learning curve, coupled with the limited development time, proved to be our biggest challenge. Sorting, tagging and uploading over 10 000 images for our computer vision model was also a challenge on its own, which required a fair amount of scripting.
