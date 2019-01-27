@@ -12,8 +12,8 @@ import io.realm.RealmMigration
 
 
 class Application: android.app.Application() {
+    var user: User? = null
     private lateinit var realm: Realm
-    open var user: User? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -39,20 +39,26 @@ class Application: android.app.Application() {
         realm.deleteAll()
         realm.commitTransaction()
 
-        getUser()
+        loadUser()
     }
 
-    /**
-     * Will load the user information if it exists and will create a new user if there is none in yet
-     */
-    private fun getUser() {
-        user = UserModel.getUser(realm)
+    fun loadUser() {
+        user = UserModel.loadUser(realm)
 
         if(user == null) {
             if(UserModel.saveUser(realm, User(age = 22, sex = 0))) {
-                user = UserModel.getUser(realm)
+                user = UserModel.loadUser(realm)
             }
         }
+
+    }
+
+//    fun getUser(): User {
+//        return this.user
+//    }
+
+    fun getRealm(): Realm {
+        return this.realm
     }
 }
 
