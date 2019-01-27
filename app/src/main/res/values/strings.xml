@@ -21,4 +21,10 @@
         <item>Female</item>
         <item>Not Listed Above</item>
     </string-array>
+
+    // Mole Profile fragmnet
+    <string name="location_on_body">Location on Body: </string>
+    <string name="mole_nickname">Mole Nickname: </string>
+    <string name="timestamp_text">Time of Picture: </string>
+    <string name="details">Details: </string>
 </resources>
