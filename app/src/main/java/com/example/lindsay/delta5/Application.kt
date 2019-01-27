@@ -8,7 +8,7 @@ import io.realm.*
 
 
 class Application: android.app.Application() {
-    private lateinit var realm: Realm
+    open lateinit var realm: Realm
     open var user: User? = null
     open lateinit var moles: RealmResults<Mole>
 
@@ -42,7 +42,7 @@ class Application: android.app.Application() {
     }
 
     private fun loadDatabase() {
-        getUser()
+        loadUser()
         loadMoles()
     }
 
@@ -57,20 +57,8 @@ class Application: android.app.Application() {
 
     }
 
-//    fun getUser(): User {
-//        return this.user
-//    }
-
-    fun getRealm(): Realm {
-        return this.realm
-    }
-
     fun loadMoles() {
         moles = MoleModel.getAllMoles(realm)
-    }
-
-    fun getRealm(): Realm {
-        return realm
     }
 
 }

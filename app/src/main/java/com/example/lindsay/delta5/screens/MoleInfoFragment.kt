@@ -15,6 +15,7 @@ import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -61,8 +62,8 @@ class MoleInfoFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
         mainActivity = activity as MainActivity
+        mainActivity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         if(arguments != null && !arguments!!.isEmpty) {
             Log.d("deltahacks", "There are arguments so set up the mole from the database")
@@ -70,8 +71,8 @@ class MoleInfoFragment : Fragment() {
             Log.d("deltahacks", "This is a new mole so create a new mole")
             val moleID = UUID.randomUUID().toString()
 
-            MoleModel.saveMole( (mainActivity.application as Application).getRealm(), Mole(_ID = moleID, date = DateUtils.currentDate()))
-            mole = MoleModel.getMole((mainActivity.application as Application).getRealm(), moleID)
+            MoleModel.saveMole( (mainActivity.application as Application).realm, Mole(_ID = moleID, date = DateUtils.currentDate()))
+            mole = MoleModel.getMole((mainActivity.application as Application).realm, moleID)
         }
 
         mole!!.addChangeListener<RealmObject> { _ ->
@@ -130,9 +131,9 @@ class MoleInfoFragment : Fragment() {
                     // use imageFile
 
                     if (imageFile != null) {
-                        (mainActivity.application as Application).getRealm().beginTransaction()
+                        (mainActivity.application as Application).realm.beginTransaction()
                         mole!!.imagePath = imageFile.absolutePath
-                        (mainActivity.application as Application).getRealm().commitTransaction()
+                        (mainActivity.application as Application).realm.commitTransaction()
                     }
 
 

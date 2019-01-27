@@ -89,6 +89,10 @@ class MainActivity : AppCompatActivity() {
             switchFragment(Screen.PROFILE, true)
             true
         }
+        android.R.id.home -> {
+            supportFragmentManager.popBackStack()
+            true
+        }
         else -> {
             // If we got here, the user's action was not recognized.
             // Invoke the superclass to handle it.

@@ -25,11 +25,6 @@ class ProfileFragment : Fragment() {
         user = (mainActivity.application as Application).user!!
 
         setAllFields()
-}
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -38,10 +33,6 @@ class ProfileFragment : Fragment() {
 
 
         return inflater.inflate(R.layout.fragment_profile, container, false)
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
     }
 
     override fun onDetach() {
@@ -72,7 +63,7 @@ class ProfileFragment : Fragment() {
                 sex
         )
 
-        return UserModel.saveUser(application.getRealm(), userToSave)
+        return UserModel.saveUser(application.realm, userToSave)
     }
 
 
