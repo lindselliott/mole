@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">delta5</string>
     <string name="title_activity_splash">SpashActivity</string>
+    <string name="title_activity_add_new_mole">Add New Mole</string>
 
     // Splash screen
     <string name="logo_desc">DeltaHacks V Splash image</string>

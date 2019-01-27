@@ -60,8 +60,9 @@ class MainActivity : AppCompatActivity() {
         switchFragment(Screen.DASHBOARD)
     }
 
-    private fun switchFragment(screen: Screen, addToBackStack: Boolean = true, vararg params: String) {
+    open fun switchFragment(screen: Screen, addToBackStack: Boolean = true, vararg params: String) {
 
+        Log.d("Delta", "Transaction begin")
         val fragment = fragments[screen] ?: return
         val fragmentTransaction = supportFragmentManager.beginTransaction()
 
@@ -108,14 +109,13 @@ class MainActivity : AppCompatActivity() {
                 var selectedImage: Uri? = null
 
 
-                Log.d("deltahacks", "image taken ")
+                Log.d("Delta", "image taken ")
                 //Log.d("deltahacks", filePath)
 
 
                 if (resultCode == Activity.RESULT_OK) {
 
                     if (mImageUri != null) {
-                        Log.d("CAMERA_TEST", "revoke permissions")
                         revokeUriPermission(mImageUri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
 
                         imageFile = File(filePath)
@@ -146,26 +146,27 @@ class MainActivity : AppCompatActivity() {
                     // use imageFile
 
                     if (imageFile != null) {
-                        Log.d("deltahacks", "image exists ")
+                        Log.d("Delta", "image exists ")
 
                     }
 
-                    supportFragmentManager.beginTransaction()
-                            .replace(R.id.fragment_container, MoleInfoFragment())
-                            .addToBackStack(null)
-                            .commit()
+                    switchFragment(Screen.MOLE_INFO)
 
                     filePath = null
                     mImageUri = null
-                    return
                 }
 
             }
         }
         if (resultCode == RESULT_CANCELED && filePath != null) {
-            Log.d("deltahacks", "Deleting temp file after cancel.")
+            Log.d("Delta", "Deleting temp file after cancel.")
             ImageUtils.deleteImage(filePath!!)
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        Log.d("Delta", "onSaveInstanceState Called")
     }
 
     fun sendCameraIntent() {

@@ -32,13 +32,10 @@ class MoleInfoFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        mainActivity = activity as MainActivity
-
-
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View {
+        mainActivity = activity as MainActivity
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.mole_info_fragment, container, false)
     }
