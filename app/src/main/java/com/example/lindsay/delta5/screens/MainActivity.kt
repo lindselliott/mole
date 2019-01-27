@@ -182,7 +182,9 @@ class MainActivity : AppCompatActivity() {
 
                         MoleModel.saveMole( (application as Application).getRealm(), mole)
                     }
-                    switchFragment(Screen.MOLE_INFO)
+
+
+//                    switchFragment(Screen.MOLE_INFO)
 
                     filePath = null
                     mImageUri = null
