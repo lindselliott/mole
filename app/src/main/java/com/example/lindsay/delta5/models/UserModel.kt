@@ -6,7 +6,7 @@ import io.realm.Realm
 
 class UserModel {
     companion object {
-        fun getUser(realm: Realm): User? {
+        fun loadUser(realm: Realm): User? {
             val query = realm.where(User::class.java)
             return query.findFirst()
         }

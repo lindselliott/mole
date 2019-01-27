@@ -6,7 +6,6 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-
         <item name="android:background">@color/white</item>
     </style>
 
@@ -20,14 +19,13 @@
         <item name="android:layout_height">54dp</item>
     </style>
 
-    // Text input styles
-    <style name="textInput">
-        <item name="android:textColor">@color/red</item>
-    </style>
-
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="textInput">
+        <item name="android:textColor">@color/red</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

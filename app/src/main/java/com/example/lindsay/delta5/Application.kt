@@ -1,17 +1,16 @@
 package com.example.lindsay.delta5
 
+import com.example.lindsay.delta5.entities.Mole
 import com.example.lindsay.delta5.entities.User
+import com.example.lindsay.delta5.models.MoleModel
 import com.example.lindsay.delta5.models.UserModel
-import io.realm.DynamicRealm
-import io.realm.Realm
-import io.realm.RealmConfiguration
-import io.realm.RealmMigration
-
+import io.realm.*
 
 
 class Application: android.app.Application() {
-    private lateinit var realm: Realm
+    open lateinit var realm: Realm
     open var user: User? = null
+    open lateinit var moles: RealmResults<Mole>
 
     override fun onCreate() {
         super.onCreate()
@@ -38,24 +37,28 @@ class Application: android.app.Application() {
         realm.deleteAll()
         realm.commitTransaction()
 
-        getUser()
+        loadUser()
+        loadDatabase()
     }
 
-    /**
-     * Will load the user information if it exists and will create a new user if there is none in yet
-     */
-    private fun getUser() {
-        user = UserModel.getUser(realm)
+    private fun loadDatabase() {
+        loadUser()
+        loadMoles()
+    }
+
+    fun loadUser() {
+        user = UserModel.loadUser(realm)
 
         if(user == null) {
             if(UserModel.saveUser(realm, User(age = 22, sex = 0))) {
-                user = UserModel.getUser(realm)
+                user = UserModel.loadUser(realm)
             }
         }
+
     }
 
-    fun getRealm(): Realm {
-        return realm
+    fun loadMoles() {
+        moles = MoleModel.getAllMoles(realm)
     }
 
 }

@@ -21,10 +21,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="15dp"
+            android:textStyle="bold"
             android:text="@string/profile"
             android:textAlignment="center"
             android:textColor="@android:color/black"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:paddingBottom="20dp"/>
 
         <TextView
             android:id="@+id/age_title"
@@ -33,18 +35,21 @@
             android:text="@string/age"
             android:layout_below="@+id/profile_title"
             android:textColor="@android:color/black"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:paddingBottom="20dp"/>
 
         <EditText
             android:id="@+id/age_text"
+            style="@android:style/TextAppearance.DeviceDefault.Widget.EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/age_title"
             android:layout_centerInParent="true"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
             android:layout_marginBottom="26dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
             android:autofillHints=""
+            android:backgroundTint="@color/grey"
             android:ems="10"
             android:hint="@string/age"
             android:inputType="textCapWords"
@@ -52,8 +57,7 @@
             android:singleLine="true"
             android:textAlignment="center"
             android:textSize="18sp"
-            style="@style/textInput"
-            tools:targetApi="o" />
+            android:paddingBottom="20dp"/>
 
         <TextView
             android:id="@+id/sex_title"
@@ -62,16 +66,15 @@
             android:text="@string/sex"
             android:textColor="@android:color/black"
             android:layout_below="@+id/age_text"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:paddingBottom="20dp"/>
 
         <Spinner
             android:id="@+id/sex_spinner"
-            android:layout_width="185dp"
-            android:layout_height="56dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/sex_title"
-            android:layout_centerInParent="true"
-            android:elevation="5dp"
-            android:popupBackground="@color/colorPrimary"
+            android:gravity="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
