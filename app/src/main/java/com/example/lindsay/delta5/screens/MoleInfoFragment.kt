@@ -71,6 +71,8 @@ class MoleInfoFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+      Log.d("deltahacks", "onactivitycreated")
+
         mainActivity = activity as MainActivity
         mainActivity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
@@ -85,11 +87,23 @@ class MoleInfoFragment : Fragment() {
         details_field.setText("")
         learn_more.visibility = View.INVISIBLE
 
-        if (arguments != null && !arguments!!.isEmpty) {
+
+        Log.d("deltahacks", "Mole: ${mole}")
+
+        if(mole != null) {
+            mole_image.setImageBitmap(ImageUtils.getImageBitmap(mole!!.imagePath, 150))
+            mole_location_field.setText(mole!!.bodyLocation)
+            mole_nickname_field.setText(mole!!.moleName)
+            details_field.setText(mole!!.notes)
+            mole_date_taken_field.setText(DateUtils.getFormattedStringFromEpochTime(mole!!.date!!))
+
+            learn_more.visibility = View.VISIBLE
+        } else if (arguments != null && !arguments!!.isEmpty) {
             Log.d("deltahacks", "There are arguments so set up the mole from the database")
             mole = (mainActivity.application as Application).moles.where().equalTo("_ID", arguments!!.getString("id")).findFirst()!!
 
             mole_image.setImageBitmap(ImageUtils.getImageBitmap(mole!!.imagePath, 150))
+            learn_more.visibility = View.INVISIBLE
             Log.d("deltahacks", "Mole: ${mole}")
         } else {
             Log.d("deltahacks", "This is a new mole so create a new mole")
@@ -100,23 +114,21 @@ class MoleInfoFragment : Fragment() {
 
             isEditMode = true
 
-            mole_nickname_field.isEnabled = isEditMode
-            mole_location_field.isEnabled = isEditMode
-            learn_more.visibility = View.VISIBLE
-            
             if (checkCameraPermission(MY_PERMISSIONS_REQUEST_CAMERA) && checkStoragePermission(MY_PERMISSIONS_REQUEST_STORAGE)) {
                 sendCameraIntent()
             }
         }
 
-        learn_more.setOnClickListener {
-            val fragment = MoreInfoFragment()
+        mole_nickname_field.isEnabled = isEditMode
+        mole_location_field.isEnabled = isEditMode
 
-            mainActivity.supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, fragment)
-                    .addToBackStack(null)
-                    .commit()
+        learn_more.setOnClickListener {
+            if (mainActivity.menu != null) {
+                mainActivity.menu!!.findItem(R.id.save_mole).isVisible = false
+                mainActivity.menu!!.findItem(R.id.edit_mole).isVisible = false
+            }
+
+            mainActivity.switchFragment(MainActivity.Screen.MORE_INFO)
         }
 
         if (mainActivity.menu != null) {
@@ -131,8 +143,12 @@ class MoleInfoFragment : Fragment() {
         mole_date_taken_field.setText(DateUtils.getFormattedStringFromEpochTime(mole!!.date!!))
 
         mole!!.addChangeListener<RealmObject> { _ ->
-            Log.d("deltahacks", "Mole Image: ${mole_image}")
+            Log.d("deltahacks", "Mole Image [136]: ${mole_image}")
             mole_image.setImageBitmap(ImageUtils.getImageBitmap(mole!!.imagePath, 150))
+            mole_location_field.setText(mole!!.bodyLocation)
+            mole_nickname_field.setText(mole!!.moleName)
+            details_field.setText(mole!!.notes)
+            mole_date_taken_field.setText(DateUtils.getFormattedStringFromEpochTime(mole!!.date!!))
         }
 
         upload_button.setOnClickListener{ _ ->
@@ -142,6 +158,23 @@ class MoleInfoFragment : Fragment() {
 
             Log.d("deltahacks", "uploading...")
         }
+    }
+
+    open fun close() {
+        removeListener()
+        saveMole()
+
+        if(mainActivity.menu != null) {
+            mainActivity.menu!!.findItem(R.id.action_profile).isVisible = true
+            mainActivity.menu!!.findItem(R.id.save_mole).isVisible = false
+            mainActivity.menu!!.findItem(R.id.edit_mole).isVisible = false
+        }
+
+        mainActivity.supportActionBar?.setDisplayHomeAsUpEnabled(false)
+    }
+
+    private fun removeListener() {
+        mole!!.removeAllChangeListeners()
     }
 
     open fun toggleEditMode() {
@@ -183,6 +216,12 @@ class MoleInfoFragment : Fragment() {
         super.onDestroy()
         LocalBroadcastManager.getInstance(mainActivity).unregisterReceiver(broadcastReceiver);
 
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        Log.d("deltaHacks", "Saved instance state")
+        super.onSaveInstanceState(outState)
+        outState.putString("id", mole!!._ID)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

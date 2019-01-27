@@ -3,6 +3,12 @@
     <string name="title_activity_splash">SpashActivity</string>
     <string name="title_activity_add_new_mole">Add New Mole</string>
 
+    // Alerts
+    <string name="yes">Yes</string>
+    <string name="no">no</string>
+    <string name="alert_message">Are you sure you want to discard?</string>
+    <string name="alert_title">Hold On!</string>
+
     // Splash screen
     <string name="logo_desc">DeltaHacks V Splash image</string>
     <string name="title_activity_login_register">LoginRegisterActivity</string>
