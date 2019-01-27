@@ -1,19 +1,20 @@
 package com.example.lindsay.delta5.screens
 
+import android.Manifest
 import android.app.Activity
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.content.*
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v4.content.FileProvider
 import android.support.v4.content.LocalBroadcastManager
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.LayoutInflater
@@ -54,6 +55,9 @@ class MoleInfoFragment : Fragment() {
     }
 
     private val REQUEST_IMAGE_CAPTURE = 1
+    val MY_PERMISSIONS_REQUEST_CAMERA = 100
+    val MY_PERMISSIONS_REQUEST_STORAGE = 101
+
 
     private var mImageUri: Uri? = null
     private var filePath: String? = null
@@ -96,8 +100,10 @@ class MoleInfoFragment : Fragment() {
 
             mole_nickname_field.isEnabled = isEditMode
             mole_location_field.isEnabled = isEditMode
-
-            sendCameraIntent()
+            
+            if (checkCameraPermission(MY_PERMISSIONS_REQUEST_CAMERA) && checkStoragePermission(MY_PERMISSIONS_REQUEST_STORAGE)) {
+                sendCameraIntent()
+            }
         }
 
         if (mainActivity.menu != null) {
@@ -260,6 +266,121 @@ class MoleInfoFragment : Fragment() {
         startActivityForResult(cameraIntent, REQUEST_IMAGE_CAPTURE)
     }
 
+
+    /**
+     * Check if the app has permission to use the camera and request it if it does not have permission.
+     * @return `true` if permission is granted otherwise `false`
+     */
+    private fun checkCameraPermission(permissionFor: Int): Boolean {
+        if (ContextCompat.checkSelfPermission(mainActivity, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(mainActivity, Manifest.permission.CAMERA)) {
+
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+                AlertDialog.Builder(mainActivity)
+                        .setTitle(R.string.title_camera_permission)
+                        .setMessage(R.string.text_camera_permission)
+                        .setPositiveButton(R.string.okay, { dialogInterface: DialogInterface, i: Int ->
+                            //Prompt the user once explanation has been shown
+                            ActivityCompat.requestPermissions(mainActivity,
+                                    arrayOf(Manifest.permission.CAMERA),
+                                    MY_PERMISSIONS_REQUEST_CAMERA)
+                        })
+                        .create()
+                        .show()
+            } else {
+                // No explanation needed, we can request the permission.
+                ActivityCompat.requestPermissions(mainActivity,
+                        arrayOf(Manifest.permission.CAMERA),
+                        permissionFor)
+            }
+            return false
+        } else {
+            return true
+        }
+    }
+
+
+    private fun checkStoragePermission(permissionFor: Int): Boolean {
+        if (ContextCompat.checkSelfPermission(mainActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(mainActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+                AlertDialog.Builder(mainActivity)
+                        .setTitle(R.string.title_storage_permission)
+                        .setMessage(R.string.text_storage_permission)
+                        .setPositiveButton(R.string.okay, { dialogInterface: DialogInterface, i: Int ->
+                            //Prompt the user once explanation has been shown
+                            ActivityCompat.requestPermissions(mainActivity,
+                                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                                    MY_PERMISSIONS_REQUEST_STORAGE)
+                        })
+                        .create()
+                        .show()
+            } else {
+                // No explanation needed, we can request the permission.
+                ActivityCompat.requestPermissions(mainActivity,
+                        arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                        permissionFor)
+            }
+            return false
+        } else {
+            return true
+        }
+    }
+
+    /**
+     * The result from requesting camera permissions.
+     *
+     * @param requestCode the code that was sent for the permission request
+     * @param permissions the permissions that were requested
+     * @param grantResults if the permissions were granted or not
+     */
+    override fun onRequestPermissionsResult(requestCode: Int,
+                                   permissions: Array<String>, grantResults: IntArray) {
+        when (requestCode) {
+            MY_PERMISSIONS_REQUEST_CAMERA -> {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! Do the
+                    // location-related task you need to do.
+                    if (ContextCompat.checkSelfPermission(mainActivity, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                        // start the camera
+                        sendCameraIntent()
+                    }
+
+                } else {
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return
+            }
+            MY_PERMISSIONS_REQUEST_STORAGE -> {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! Do the
+                    // location-related task you need to do.
+                    if (ContextCompat.checkSelfPermission(mainActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                        // start the camera
+                    }
+
+                } else {
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return
+            }
+        }
+    }
 
     private val broadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {

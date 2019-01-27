@@ -31,4 +31,16 @@
     <string name="mole_nickname">Mole Nickname </string>
     <string name="timestamp_text">Date Taken </string>
     <string name="details">Details </string>
+
+
+    // permissions
+    <string name="okay">OK</string>
+
+    <string name="title_camera_permission">Camera Permissions</string>
+    <string name="text_camera_permission">We need permissions to use your camera so that you can add a picture.</string>
+
+    <string name="title_storage_permission">Storage Permissions</string>
+    <string name="text_storage_permission">We need permissions to write to your phone so the pictures can be saved.</string>
+
+
 </resources>
