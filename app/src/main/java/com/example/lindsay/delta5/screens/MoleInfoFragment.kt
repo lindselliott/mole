@@ -35,6 +35,7 @@ import com.example.lindsay.delta5.network.HttpResponce
 import com.example.lindsay.delta5.utils.DateUtils
 import com.example.lindsay.delta5.utils.ImageUtils
 import io.realm.RealmObject
+import kotlinx.android.synthetic.main.fragment_profile.view.*
 import kotlinx.android.synthetic.main.mole_info_fragment.*
 import java.io.File
 import java.io.FileOutputStream
@@ -67,6 +68,8 @@ class MoleInfoFragment : Fragment() {
     lateinit var imageView: ImageView
     lateinit var mainActivity: MainActivity
 
+    private var isEditMode = false
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         mainActivity = activity as MainActivity
@@ -75,29 +78,62 @@ class MoleInfoFragment : Fragment() {
         LocalBroadcastManager.getInstance(mainActivity).registerReceiver(
                 broadcastReceiver, IntentFilter(HttpConnection.AI_RESPONCE_ACTION));
 
+        // Reset the fields
+        mole_location_field.setText("")
+        mole_nickname_field.setText("")
+        mole_date_taken_field.setText("")
 
-        if(arguments != null && !arguments!!.isEmpty) {
+        if (arguments != null && !arguments!!.isEmpty) {
             Log.d("deltahacks", "There are arguments so set up the mole from the database")
+            mole = (mainActivity.application as Application).moles.where().equalTo("_ID", arguments!!.getString("id")).findFirst()!!
+            imageView.setImageBitmap(ImageUtils.getImageBitmap(mole!!.imagePath, 150))
         } else {
             Log.d("deltahacks", "This is a new mole so create a new mole")
             val moleID = UUID.randomUUID().toString()
 
-            MoleModel.saveMole( (mainActivity.application as Application).realm, Mole(_ID = moleID, date = DateUtils.currentDate()))
+            MoleModel.saveMole((mainActivity.application as Application).realm, Mole(_ID = moleID, date = DateUtils.currentDate()))
             mole = MoleModel.getMole((mainActivity.application as Application).realm, moleID)
+
+            mole_location_field.isEnabled = true
+            mole_nickname_field.isEnabled = true
+
+            isEditMode = true
+
+            sendCameraIntent()
         }
 
+        if (mainActivity.menu != null) {
+            mainActivity.menu!!.findItem(R.id.action_profile).isVisible = false
+            mainActivity.menu!!.findItem(R.id.save_mole).isVisible = isEditMode
+        }
+
+        mole_location_field.setText(mole!!.bodyLocation)
+        mole_nickname_field.setText(mole!!.moleName)
+        mole_date_taken_field.setText(DateUtils.getFormattedStringFromEpochTime(mole!!.date!!))
+
         mole!!.addChangeListener<RealmObject> { _ ->
-            Log.d("deltahacks", "mole is null: " + (mole == null))
-            Log.d("deltahacks", "image is null: " + (mole!!.imagePath == null))
 
             mole_image.setImageBitmap(ImageUtils.getImageBitmap(mole!!.imagePath))
         }
-
-        sendCameraIntent()
     }
-    
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View {
+    open fun saveMole() {
+        val toSave = Mole(
+                mole!!._ID,
+                mole_nickname_field.text.toString(),
+                mole_location_field.text.toString(),
+                "Cheddar notes",
+                mole!!.imagePath,
+                mole!!.date,
+                mole!!.confidenceMalignant,
+                mole!!.confidenceBenign
+        )
+
+        MoleModel.saveMole((mainActivity.application as Application).realm, toSave)
+    }
+
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         // Inflate the layout for this fragment
         val view: View = inflater.inflate(R.layout.mole_info_fragment, container, false)
 
@@ -214,7 +250,7 @@ class MoleInfoFragment : Fragment() {
 
                     var str = ""
 
-                    var predictions :  ArrayList<HttpResponce.Prediction>
+                    var predictions: ArrayList<HttpResponce.Prediction>
 
                     predictions = intent.getParcelableArrayListExtra(HttpConnection.PREDICTIONS_EXTRA)
 
@@ -224,8 +260,10 @@ class MoleInfoFragment : Fragment() {
 
                     //detail_text.setText(str)
 
+                    Log.d("deltahacks", str)
+
                 }
             }
         }
-
     }
+}

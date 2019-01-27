@@ -25,7 +25,7 @@
     </style>
 
     <style name="textInput">
-        <item name="android:textColor">@color/red</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

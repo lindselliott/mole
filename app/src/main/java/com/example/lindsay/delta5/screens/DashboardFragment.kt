@@ -28,6 +28,7 @@ import com.example.lindsay.delta5.models.MoleModel
 import com.example.lindsay.delta5.utils.ImageUtils
 import io.realm.RealmBaseAdapter
 import io.realm.RealmResults
+import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 import kotlinx.android.synthetic.main.fragment_dashboard.view.*
 import kotlinx.android.synthetic.main.mole_list_layout.*
@@ -60,23 +61,9 @@ class DashboardFragment : Fragment() {
         add_new_mole.setOnClickListener {
 
             mainActivity.switchFragment(MainActivity.Screen.MOLE_INFO)
-//            mainActivity.sendCameraIntent()
-
-
-
-            // For testing this is going to create a new mole and add it to the database
-//            MoleModel.saveMole((mainActivity.application as Application).getRealm(), Mole(
-//                    _ID = UUID.randomUUID().toString(),
-//                    moleName = "Lucas",
-//                    bodyLocation = "Arm",
-//                    notes = "This is a mole",
-//                    date = System.currentTimeMillis()
-//            ))
         }
 
         moleAdapter = MoleHistoryPlantAdapter((mainActivity.application as Application).moles)
-
-        Log.d("deltahacks", "${moleAdapter.count}")
 
         moleDataObserver = MoleDataObserver()
         moleAdapter.registerDataSetObserver(moleDataObserver)
@@ -86,11 +73,30 @@ class DashboardFragment : Fragment() {
 
 
             var am: AssetManager = mainActivity.assets
-            var f:File =  ImageUtils.createImageFile(mainActivity, "jpeg");
+            var f: File = ImageUtils.createImageFile(mainActivity, "jpeg");
 
             HttpConnection.writeBytesToFile(am.open("mole_tmp.jpg"), f)
 
             HttpConnection().post(f, mainActivity)
+        }
+
+        mole_history_list.setOnItemClickListener { parent, view, position, id ->
+            Log.d("deltahacks", "Clicked")
+            val clickedMole = moleAdapter.getItem(position)
+            Log.d("deltahacks", "Clicking on a specific mole: ${clickedMole?._ID}")
+
+
+            val moleInfoFragment = MoleInfoFragment()
+            val bundle = Bundle()
+            bundle.putString("id", clickedMole?._ID)
+            moleInfoFragment.arguments = bundle
+
+            mainActivity.supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, moleInfoFragment)
+                    .addToBackStack(null)
+                    .commit()
+
+//            switchToPlantProfileActivity(clickedMole!!._ID)
         }
 
     }
@@ -129,8 +135,6 @@ class DashboardFragment : Fragment() {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
             lateinit var returnView: View
             lateinit var viewHolder: ViewHolder
-
-            Log.d("deltahacks", "There is a view that we want to seee")
 
             // Setup the view so we can edit the internal fields
             if(convertView == null) {
