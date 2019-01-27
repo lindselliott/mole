@@ -22,8 +22,8 @@ class Application: android.app.Application() {
         val config = RealmConfiguration.Builder()
                 .name("delta5.realm")
                 .directory(this.filesDir)
-                .deleteRealmIfMigrationNeeded()         // temp
-//                .schemaVersion(SCHEMA_VERSION)
+//                .deleteRealmIfMigrationNeeded()         // temp
+                .schemaVersion(SCHEMA_VERSION)
 //                .migration(RealmMigrations())
                 .build()
 

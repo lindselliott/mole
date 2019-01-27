@@ -159,7 +159,7 @@ class ImageUtils {
             var resized:Bitmap? = null
 
 
-            while (origonal != null && origonal.byteCount > 4194304) {
+            while (origonal != null && origonal.byteCount > 524288) {
                 Log.d("deltahacks", "size: " + origonal.byteCount)
 
                 resized = Bitmap.createScaledBitmap(origonal, (origonal.getWidth()*0.8).toInt(), (origonal.getHeight()* 0.8).toInt(), true)

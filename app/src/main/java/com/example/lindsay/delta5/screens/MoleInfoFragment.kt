@@ -37,6 +37,7 @@ import java.io.IOException
 import java.util.*
 
 import com.example.lindsay.delta5.R
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 /**
@@ -82,6 +83,7 @@ class MoleInfoFragment : Fragment() {
         mole_nickname_field.setText("")
         mole_date_taken_field.setText("")
         details_field.setText("")
+        learn_more.visibility = View.INVISIBLE
 
         if (arguments != null && !arguments!!.isEmpty) {
             Log.d("deltahacks", "There are arguments so set up the mole from the database")
@@ -100,10 +102,21 @@ class MoleInfoFragment : Fragment() {
 
             mole_nickname_field.isEnabled = isEditMode
             mole_location_field.isEnabled = isEditMode
+            learn_more.visibility = View.VISIBLE
             
             if (checkCameraPermission(MY_PERMISSIONS_REQUEST_CAMERA) && checkStoragePermission(MY_PERMISSIONS_REQUEST_STORAGE)) {
                 sendCameraIntent()
             }
+        }
+
+        learn_more.setOnClickListener {
+            val fragment = MoreInfoFragment()
+
+            mainActivity.supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, fragment)
+                    .addToBackStack(null)
+                    .commit()
         }
 
         if (mainActivity.menu != null) {
@@ -387,6 +400,7 @@ class MoleInfoFragment : Fragment() {
             val action = intent.action
             if (action.equals(HttpConnection.AI_RESPONCE_ACTION)) {
 
+
                 //progressBar.visibility = View.GONE
 
                 if (!intent.getBooleanExtra(HttpConnection.SUCCESS_EXTRA, false)) {
@@ -399,11 +413,33 @@ class MoleInfoFragment : Fragment() {
 
                     predictions = intent.getParcelableArrayListExtra(HttpConnection.PREDICTIONS_EXTRA)
 
-                    for (p in predictions) {
-                        str += p.tag + " : " + p.probability + "\n"
+                    val p = predictions.get(0)
+                    p.probability = p.probability * 100
+                    if(p.tag == "bkl" || p.tag == "nv" || p.tag == "df"){
+                        str = "This lesion has been identified as benign. Specifically, it has been matched as a "
+                        if(p.tag == "bkl")
+                            str += "Benign Keratosis Lesion, and was a " + p.probability + "% match.\n"
+                        if(p.tag == "nv")
+                            str += "Melanocytic Nevi, and was a " + p.probability + "% match.\n"
+                        if(p.tag == "df")
+                            str += "Dermatofibroma Lesion, and was a " + p.probability + "% match.\n"
+                    }
+                    else if(p.tag == "mel" || p.tag == "akiec" || p.tag == "bcc"){
+                        str = "This lesion has been identified as malignant. Specifically, it has been matched as "
+                        if(p.tag == "mel")
+                            str += "Melanoma, and was a " + p.probability + "% match.\n"
+                        if(p.tag == "akiec")
+                            str += "Bowens Disease, and was a " + p.probability + "% match.\n"
+                        if(p.tag == "bcc")
+                            str += "Basal Cell Carcinoma, and was a " + p.probability + "% match.\n"
+                    }
+                    else{
+                        str = "There was no malignant lesions in the photo taken. This decision was made with a " + p.probability + "% confidence score.\n"
                     }
 
+
                     details_field.setText(str)
+                    learn_more.visibility = View.VISIBLE
 
                     saveMole()
 

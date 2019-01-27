@@ -38,13 +38,16 @@
         <EditText
             android:id="@+id/mole_date_taken_field"
             style="@style/textInput"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
             android:editable="false"
             android:ems="10"
             android:enabled="false"
             android:inputType="textMultiLine"
+            app:layout_constraintEnd_toEndOf="@+id/mole_image"
             app:layout_constraintStart_toStartOf="@+id/textView3"
             app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
@@ -61,13 +64,14 @@
         <EditText
             android:id="@+id/mole_location_field"
             style="@style/textInput"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:editable="false"
             android:ems="10"
             android:enabled="false"
             android:inputType="textMultiLine"
+            app:layout_constraintEnd_toEndOf="@+id/mole_nickname_field"
             app:layout_constraintStart_toStartOf="@+id/textView"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -84,13 +88,14 @@
         <EditText
             android:id="@+id/mole_nickname_field"
             style="@style/textInput"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:editable="false"
             android:ems="10"
             android:enabled="false"
             android:inputType="textMultiLine"
+            app:layout_constraintEnd_toEndOf="@+id/mole_date_taken_field"
             app:layout_constraintStart_toStartOf="@+id/textView2"
             app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
@@ -107,13 +112,14 @@
         <EditText
             android:id="@+id/details_field"
             style="@style/textInput"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:editable="false"
             android:ems="10"
             android:enabled="false"
             android:inputType="textMultiLine"
+            app:layout_constraintEnd_toEndOf="@+id/mole_location_field"
             app:layout_constraintStart_toStartOf="@+id/textView4"
             app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
@@ -130,6 +136,20 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/mole_image"/>
+
+        <TextView
+            android:id="@+id/learn_more"
+            style="@style/textInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/more_info"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/details_field"
+            app:layout_constraintStart_toStartOf="@+id/details_field"
+            app:layout_constraintTop_toBottomOf="@+id/details_field" />
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>
