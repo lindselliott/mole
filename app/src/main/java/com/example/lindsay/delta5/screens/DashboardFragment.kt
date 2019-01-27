@@ -57,7 +57,8 @@ class DashboardFragment : Fragment() {
                     _ID = UUID.randomUUID().toString(),
                     moleName = "Lucas",
                     bodyLocation = "Arm",
-                    notes = "This is a mole"
+                    notes = "This is a mole",
+                    date = System.currentTimeMillis()
             ))
         }
 
@@ -97,6 +98,7 @@ class DashboardFragment : Fragment() {
         private inner class ViewHolder {
             internal var moleName: TextView? = null
             internal var moleImage: ImageView? = null
+            internal var dateTaken: TextView? = null
         }
 
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
@@ -112,6 +114,7 @@ class DashboardFragment : Fragment() {
                 viewHolder = ViewHolder()
                 viewHolder.moleName = returnView.findViewById(R.id.mole_name)
                 viewHolder.moleImage = returnView.findViewById(R.id.mole_image)
+                viewHolder.dateTaken = returnView.findViewById(R.id.date_taken)
 
                 returnView.tag = viewHolder
             } else {
@@ -123,6 +126,7 @@ class DashboardFragment : Fragment() {
             val mole = adapterData!![position]
 
             viewHolder.moleName?.text = mole.moleName
+            viewHolder.dateTaken?.text = "${mole.date}"
 
             if(mole.imagePath == null) {
 //                viewHolder.moleImage?.setImageResource(R.drawable.flower)
