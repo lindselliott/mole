@@ -19,7 +19,8 @@ class MainActivity : AppCompatActivity() {
         DASHBOARD,
         MOLE_INFO,
         HISTORY,
-        PROFILE
+        PROFILE,
+        MORE_INFO
     }
 
     private val fragments: MutableMap<Screen, Fragment> = HashMap()
@@ -43,6 +44,7 @@ class MainActivity : AppCompatActivity() {
         fragments[Screen.MOLE_INFO] = MoleInfoFragment.newInstance()
         fragments[Screen.HISTORY] = MoleInfoFragment.newInstance() // FIXME: Make it the proper fragment
         fragments[Screen.PROFILE] = ProfileFragment.newInstance()
+        fragments[Screen.MORE_INFO] = MoreInfoFragment.newInstance()
 
         switchFragment(Screen.DASHBOARD)
     }

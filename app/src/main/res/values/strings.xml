@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">delta5</string>
+    <string name="app_name">Möle</string>
     <string name="title_activity_splash">SpashActivity</string>
     <string name="title_activity_add_new_mole">Add New Mole</string>
 
@@ -31,6 +31,7 @@
     <string name="mole_nickname">Mole Nickname </string>
     <string name="timestamp_text">Date Taken </string>
     <string name="details">Details </string>
+    <string name="more_info">Learn More</string>
 
 
     // permissions
