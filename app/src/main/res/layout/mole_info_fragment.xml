@@ -25,14 +25,39 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/textView3"
+            style="@style/textInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Date Taken:"
+            app:layout_constraintStart_toStartOf="@+id/mole_image"
+            app:layout_constraintTop_toBottomOf="@+id/mole_image" />
+
+        <EditText
+            android:id="@+id/mole_date_taken_field"
+            style="@style/textInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:editable="false"
+            android:ems="10"
+            android:enabled="false"
+            android:inputType="textMultiLine"
+            app:layout_constraintStart_toStartOf="@+id/textView3"
+            app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+        <TextView
             android:id="@+id/textView"
             style="@style/textInput"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:text="Location on Body:"
-            app:layout_constraintStart_toStartOf="@+id/mole_image"
-            app:layout_constraintTop_toBottomOf="@+id/mole_image" />
+            app:layout_constraintStart_toStartOf="@+id/mole_nickname_field"
+            app:layout_constraintTop_toBottomOf="@+id/mole_nickname_field" />
 
         <EditText
             android:id="@+id/mole_location_field"
@@ -52,10 +77,10 @@
             style="@style/textInput"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:text="Mole nickname:"
-            app:layout_constraintStart_toStartOf="@+id/mole_location_field"
-            app:layout_constraintTop_toBottomOf="@+id/mole_location_field" />
+            app:layout_constraintStart_toStartOf="@+id/mole_date_taken_field"
+            app:layout_constraintTop_toBottomOf="@+id/mole_date_taken_field" />
 
         <EditText
             android:id="@+id/mole_nickname_field"
@@ -71,37 +96,14 @@
             app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
         <TextView
-            android:id="@+id/textView3"
-            style="@style/textInput"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Date Taken:"
-            app:layout_constraintStart_toStartOf="@+id/mole_nickname_field"
-            app:layout_constraintTop_toBottomOf="@+id/mole_nickname_field" />
-
-        <EditText
-            android:id="@+id/mole_date_taken_field"
-            style="@style/textInput"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:editable="false"
-            android:ems="10"
-            android:enabled="false"
-            android:inputType="textMultiLine"
-            app:layout_constraintStart_toStartOf="@+id/textView3"
-            app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-        <TextView
             android:id="@+id/textView4"
             style="@style/textInput"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Details"
-            app:layout_constraintStart_toStartOf="@+id/mole_date_taken_field"
-            app:layout_constraintTop_toBottomOf="@+id/mole_date_taken_field" />
+            app:layout_constraintStart_toStartOf="@+id/mole_location_field"
+            app:layout_constraintTop_toBottomOf="@+id/mole_location_field" />
 
         <EditText
             android:id="@+id/details_field"
