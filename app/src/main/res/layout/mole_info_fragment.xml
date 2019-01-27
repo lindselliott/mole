@@ -1,151 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="match_parent">
 
-        <ScrollView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent" >
+        <ImageView
+            android:id="@+id/mole_image"
+            android:layout_width="324dp"
+            android:layout_height="240dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <RelativeLayout
-                android:id="@+id/mole_form"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingBottom="20dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:paddingTop="20dp">
+        <TextView
+            android:id="@+id/textView3"
+            style="@style/textInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Date Taken:"
+            app:layout_constraintStart_toStartOf="@+id/mole_image"
+            app:layout_constraintTop_toBottomOf="@+id/mole_image" />
 
-                <ImageView
-                    android:id="@+id/mole_image"
-                    android:layout_width="225dp"
-                    android:layout_height="225dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    app:srcCompat="@drawable/mole_placeholder" />
+        <EditText
+            android:id="@+id/mole_date_taken_field"
+            style="@style/textInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:editable="false"
+            android:ems="10"
+            android:enabled="false"
+            android:inputType="textMultiLine"
+            app:layout_constraintStart_toStartOf="@+id/textView3"
+            app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
-                <TextView
-                    android:id="@+id/timestamp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="5dp"
-                    android:paddingTop="15dp"
-                    android:text="@string/timestamp_text"
-                    android:textAlignment="center"
-                    android:textColor="@android:color/black"
-                    android:textSize="20dp"
-                    android:layout_below="@+id/mole_image" />
+        <TextView
+            android:id="@+id/textView"
+            style="@style/textInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Location on Body:"
+            app:layout_constraintStart_toStartOf="@+id/mole_nickname_field"
+            app:layout_constraintTop_toBottomOf="@+id/mole_nickname_field" />
 
-                <TextView
-                    android:id="@+id/location_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="5dp"
-                    android:paddingTop="15dp"
-                    android:text="@string/location_on_body"
-                    android:textAlignment="center"
-                    android:textColor="@android:color/black"
-                    android:textSize="20dp"
-                    android:layout_below="@+id/timestamp" />
+        <EditText
+            android:id="@+id/mole_location_field"
+            style="@style/textInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:editable="false"
+            android:ems="10"
+            android:enabled="false"
+            android:inputType="textMultiLine"
+            app:layout_constraintStart_toStartOf="@+id/textView"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-                <EditText
-                    android:id="@+id/location_text"
-                    style="@android:style/TextAppearance.DeviceDefault.Widget.EditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/location_title"
-                    android:layout_centerInParent="true"
-                    android:layout_marginBottom="26dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginStart="16dp"
-                    android:autofillHints=""
-                    android:backgroundTint="@color/grey"
-                    android:ems="10"
-                    android:hint=""
-                    android:inputType="textCapWords"
-                    android:selectAllOnFocus="false"
-                    android:singleLine="true"
-                    android:textAlignment="center"
-                    android:textSize="18sp"
-                    android:paddingBottom="5dp"/>
+        <TextView
+            android:id="@+id/textView2"
+            style="@style/textInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Mole nickname:"
+            app:layout_constraintStart_toStartOf="@+id/mole_date_taken_field"
+            app:layout_constraintTop_toBottomOf="@+id/mole_date_taken_field" />
 
-                <TextView
-                    android:id="@+id/nickname_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="5dp"
-                    android:paddingTop="15dp"
-                    android:text="@string/mole_nickname"
-                    android:textAlignment="center"
-                    android:textColor="@android:color/black"
-                    android:textSize="20dp"
-                    android:layout_below="@+id/location_text"/>
+        <EditText
+            android:id="@+id/mole_nickname_field"
+            style="@style/textInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:editable="false"
+            android:ems="10"
+            android:enabled="false"
+            android:inputType="textMultiLine"
+            app:layout_constraintStart_toStartOf="@+id/textView2"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
-                <EditText
-                    android:id="@+id/nickname_text"
-                    style="@android:style/TextAppearance.DeviceDefault.Widget.EditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/nickname_title"
-                    android:layout_centerInParent="true"
-                    android:layout_marginBottom="26dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginStart="16dp"
-                    android:autofillHints=""
-                    android:backgroundTint="@color/grey"
-                    android:ems="10"
-                    android:hint=""
-                    android:inputType="textCapWords"
-                    android:selectAllOnFocus="false"
-                    android:singleLine="true"
-                    android:textAlignment="center"
-                    android:textSize="18sp"
-                    android:paddingBottom="5dp"/>
+        <TextView
+            android:id="@+id/textView4"
+            style="@style/textInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Details"
+            app:layout_constraintStart_toStartOf="@+id/mole_location_field"
+            app:layout_constraintTop_toBottomOf="@+id/mole_location_field" />
 
-                <TextView
-                    android:id="@+id/details_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="5dp"
-                    android:paddingTop="15dp"
-                    android:text="@string/details"
-                    android:textAlignment="center"
-                    android:textColor="@android:color/black"
-                    android:textSize="20dp"
-                    android:layout_below="@+id/nickname_text" />
+        <EditText
+            android:id="@+id/details_field"
+            style="@style/textInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:editable="false"
+            android:ems="10"
+            android:enabled="false"
+            android:inputType="textMultiLine"
+            app:layout_constraintStart_toStartOf="@+id/textView4"
+            app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
-                <EditText
-                    android:id="@+id/details_text"
-                    style="@android:style/TextAppearance.DeviceDefault.Widget.EditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/details_title"
-                    android:layout_centerInParent="true"
-                    android:layout_marginBottom="26dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginStart="16dp"
-                    android:autofillHints=""
-                    android:backgroundTint="@color/grey"
-                    android:ems="10"
-                    android:hint=""
-                    android:inputType="textCapWords"
-                    android:selectAllOnFocus="false"
-                    android:singleLine="true"
-                    android:textAlignment="center"
-                    android:textSize="18sp"
-                    android:paddingBottom="5dp"/>
-
-        </RelativeLayout>
-
-        </ScrollView>
-
-    </RelativeLayout>
-</android.support.constraint.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>

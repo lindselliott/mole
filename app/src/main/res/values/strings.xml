@@ -16,6 +16,9 @@
     <string name="password">Password</string>
     <string name="confirm_password">Confirm Password</string>
 
+    // Menu
+    <string name="save">Save</string>
+
     <string-array name="sex_type">
         <item>Male</item>
         <item>Female</item>
@@ -23,8 +26,8 @@
     </string-array>
 
     // Mole Profile fragmnet
-    <string name="location_on_body">Location on Body: </string>
-    <string name="mole_nickname">Mole Nickname: </string>
-    <string name="timestamp_text">Time of Picture: </string>
-    <string name="details">Details: </string>
+    <string name="location_on_body">Location on Body </string>
+    <string name="mole_nickname">Mole Nickname </string>
+    <string name="timestamp_text">Date Taken </string>
+    <string name="details">Details </string>
 </resources>
