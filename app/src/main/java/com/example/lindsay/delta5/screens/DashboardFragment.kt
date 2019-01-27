@@ -1,39 +1,22 @@
 package com.example.lindsay.delta5.screens
 
-import android.content.res.AssetManager
-import android.content.Intent
 import android.database.DataSetObserver
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
-
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
-import android.support.v4.content.FileProvider
-import android.support.v4.view.ViewPager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import com.example.lindsay.delta5.R
-import com.example.lindsay.delta5.network.HttpConnection
-import java.io.File
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.lindsay.delta5.Application
-import com.example.lindsay.delta5.screens.MainActivity
 import com.example.lindsay.delta5.entities.Mole
-import com.example.lindsay.delta5.models.MoleModel
 import com.example.lindsay.delta5.utils.ImageUtils
 import io.realm.RealmBaseAdapter
 import io.realm.RealmResults
-import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.fragment_dashboard.*
-import kotlinx.android.synthetic.main.fragment_dashboard.view.*
-import kotlinx.android.synthetic.main.mole_list_layout.*
-import java.io.IOException
-import java.util.*
+
+import com.example.lindsay.delta5.R
 
 
 /**
@@ -43,8 +26,6 @@ import java.util.*
  * @since 2019-01-26
  */
 class DashboardFragment : Fragment() {
-
-    lateinit var uploadButton: Button
 
     lateinit var mainActivity: MainActivity
     lateinit var moleAdapter: MoleHistoryPlantAdapter
@@ -56,10 +37,7 @@ class DashboardFragment : Fragment() {
         mainActivity = activity as MainActivity
 
 
-        uploadButton = activity!!.findViewById(R.id.upload)
-
         add_new_mole.setOnClickListener {
-
             mainActivity.switchFragment(MainActivity.Screen.MOLE_INFO)
         }
 
@@ -68,17 +46,6 @@ class DashboardFragment : Fragment() {
         moleDataObserver = MoleDataObserver()
         moleAdapter.registerDataSetObserver(moleDataObserver)
         mole_history_list.adapter = moleAdapter
-
-        uploadButton.setOnClickListener {
-
-
-            var am: AssetManager = mainActivity.assets
-            var f: File = ImageUtils.createImageFile(mainActivity, "jpeg");
-
-            HttpConnection.writeBytesToFile(am.open("mole_tmp.jpg"), f)
-
-            HttpConnection().post(f, mainActivity)
-        }
 
         mole_history_list.setOnItemClickListener { parent, view, position, id ->
             Log.d("deltahacks", "Clicked")

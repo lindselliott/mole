@@ -11,23 +11,16 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.content.FileProvider
 import android.support.v4.content.LocalBroadcastManager
-import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import com.example.lindsay.delta5.Application
-import com.example.lindsay.delta5.screens.MainActivity
-import com.example.lindsay.delta5.R
 import com.example.lindsay.delta5.entities.Mole
 import com.example.lindsay.delta5.models.MoleModel
 import com.example.lindsay.delta5.network.HttpConnection
@@ -35,12 +28,13 @@ import com.example.lindsay.delta5.network.HttpResponce
 import com.example.lindsay.delta5.utils.DateUtils
 import com.example.lindsay.delta5.utils.ImageUtils
 import io.realm.RealmObject
-import kotlinx.android.synthetic.main.fragment_profile.view.*
 import kotlinx.android.synthetic.main.mole_info_fragment.*
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.util.*
+
+import com.example.lindsay.delta5.R
 
 
 /**
