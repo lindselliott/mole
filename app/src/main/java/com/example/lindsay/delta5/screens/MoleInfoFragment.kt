@@ -1,39 +1,40 @@
 package com.example.lindsay.delta5.screens
 
 import android.app.Activity
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.content.FileProvider
-import android.support.v4.view.ViewPager
+import android.support.v4.content.LocalBroadcastManager
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
+import android.widget.Toast
 import com.example.lindsay.delta5.Application
-import com.example.lindsay.delta5.screens.MainActivity
-import com.example.lindsay.delta5.R
 import com.example.lindsay.delta5.entities.Mole
 import com.example.lindsay.delta5.models.MoleModel
+import com.example.lindsay.delta5.network.HttpConnection
+import com.example.lindsay.delta5.network.HttpResponce
 import com.example.lindsay.delta5.utils.DateUtils
 import com.example.lindsay.delta5.utils.ImageUtils
 import io.realm.RealmObject
-import kotlinx.android.synthetic.main.fragment_profile.view.*
 import kotlinx.android.synthetic.main.mole_info_fragment.*
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.util.*
+
+import com.example.lindsay.delta5.R
 
 
 /**
@@ -68,12 +69,15 @@ class MoleInfoFragment : Fragment() {
         mainActivity = activity as MainActivity
         mainActivity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        LocalBroadcastManager.getInstance(mainActivity).registerReceiver(
+                broadcastReceiver, IntentFilter(HttpConnection.AI_RESPONCE_ACTION));
+
         // Reset the fields
         mole_location_field.setText("")
         mole_nickname_field.setText("")
         mole_date_taken_field.setText("")
 
-        if(arguments != null && !arguments!!.isEmpty) {
+        if (arguments != null && !arguments!!.isEmpty) {
             Log.d("deltahacks", "There are arguments so set up the mole from the database")
             mole = (mainActivity.application as Application).moles.where().equalTo("_ID", arguments!!.getString("id")).findFirst()!!
             imageView.setImageBitmap(ImageUtils.getImageBitmap(mole!!.imagePath, 150))
@@ -81,7 +85,7 @@ class MoleInfoFragment : Fragment() {
             Log.d("deltahacks", "This is a new mole so create a new mole")
             val moleID = UUID.randomUUID().toString()
 
-            MoleModel.saveMole( (mainActivity.application as Application).realm, Mole(_ID = moleID, date = DateUtils.currentDate()))
+            MoleModel.saveMole((mainActivity.application as Application).realm, Mole(_ID = moleID, date = DateUtils.currentDate()))
             mole = MoleModel.getMole((mainActivity.application as Application).realm, moleID)
 
             mole_location_field.isEnabled = true
@@ -92,17 +96,27 @@ class MoleInfoFragment : Fragment() {
             sendCameraIntent()
         }
 
-        if(mainActivity.menu != null) {
+        if (mainActivity.menu != null) {
             mainActivity.menu!!.findItem(R.id.action_profile).isVisible = false
             mainActivity.menu!!.findItem(R.id.save_mole).isVisible = isEditMode
         }
 
         mole_location_field.setText(mole!!.bodyLocation)
         mole_nickname_field.setText(mole!!.moleName)
+        details_field.setText(mole!!.notes)
         mole_date_taken_field.setText(DateUtils.getFormattedStringFromEpochTime(mole!!.date!!))
 
         mole!!.addChangeListener<RealmObject> { _ ->
+
             mole_image.setImageBitmap(ImageUtils.getImageBitmap(mole!!.imagePath))
+        }
+
+        upload_button.setOnClickListener{ _ ->
+
+            var file = File(mole!!.imagePath)
+            HttpConnection().post(file, mainActivity)
+
+            Log.d("deltahacks", "uploading...")
         }
     }
 
@@ -111,7 +125,7 @@ class MoleInfoFragment : Fragment() {
                 mole!!._ID,
                 mole_nickname_field.text.toString(),
                 mole_location_field.text.toString(),
-                "Cheddar notes",
+                details_field.text.toString(),
                 mole!!.imagePath,
                 mole!!.date,
                 mole!!.confidenceMalignant,
@@ -121,13 +135,20 @@ class MoleInfoFragment : Fragment() {
         MoleModel.saveMole((mainActivity.application as Application).realm, toSave)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View {
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         // Inflate the layout for this fragment
         val view: View = inflater.inflate(R.layout.mole_info_fragment, container, false)
 
         imageView = view.findViewById(R.id.mole_image)
 
         return view
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        LocalBroadcastManager.getInstance(mainActivity).unregisterReceiver(broadcastReceiver);
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -216,5 +237,38 @@ class MoleInfoFragment : Fragment() {
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri)
         }
         startActivityForResult(cameraIntent, REQUEST_IMAGE_CAPTURE)
+    }
+
+
+    private val broadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            val action = intent.action
+            if (action.equals(HttpConnection.AI_RESPONCE_ACTION)) {
+
+                //progressBar.visibility = View.GONE
+
+                if (!intent.getBooleanExtra(HttpConnection.SUCCESS_EXTRA, false)) {
+                    Toast.makeText(mainActivity, "Error", Toast.LENGTH_SHORT).show()
+                } else {
+
+                    var str = ""
+
+                    var predictions: ArrayList<HttpResponce.Prediction>
+
+                    predictions = intent.getParcelableArrayListExtra(HttpConnection.PREDICTIONS_EXTRA)
+
+                    for (p in predictions) {
+                        str += p.tag + " : " + p.probability + "\n"
+                    }
+
+                    details_field.setText(str)
+
+                    saveMole()
+
+                    Log.d("deltahacks", str)
+
+                }
+            }
+        }
     }
 }

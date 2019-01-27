@@ -1,30 +1,17 @@
 package com.example.lindsay.delta5.screens
 
-import android.app.Activity
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.net.Uri
-import android.os.Build
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.MediaStore
 import android.support.v4.app.Fragment
-import android.support.v4.content.FileProvider
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.example.lindsay.delta5.Application
-import com.example.lindsay.delta5.entities.Mole
-import com.example.lindsay.delta5.models.MoleModel
-import com.example.lindsay.delta5.utils.DateUtils
-import com.example.lindsay.delta5.utils.ImageUtils
 import kotlinx.android.synthetic.main.activity_main.*
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
 import java.util.*
 
 import com.example.lindsay.delta5.R
+
 
 class MainActivity : AppCompatActivity() {
 

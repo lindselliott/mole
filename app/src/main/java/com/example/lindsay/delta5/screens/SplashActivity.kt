@@ -2,13 +2,12 @@ package com.example.lindsay.delta5.screens
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import com.example.lindsay.delta5.Application
+
 import com.example.lindsay.delta5.R
 
-import kotlinx.android.synthetic.main.activity_splash.*
 
 class SplashActivity : AppCompatActivity() {
     private lateinit var application: Application
