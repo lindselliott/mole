@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         fragments[Screen.PROFILE] = ProfileFragment.newInstance()
         fragments[Screen.MORE_INFO] = MoreInfoFragment.newInstance()
 
-        switchFragment(Screen.DASHBOARD)
+        switchFragment(Screen.DASHBOARD, false)
     }
 
     open fun switchFragment(screen: Screen, addToBackStack: Boolean = true, vararg params: String) {
