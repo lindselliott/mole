@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+
+            <RelativeLayout
+                android:id="@+id/info_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="20dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="20dp">
+
+
+                <TextView
+                    android:id="@+id/heading1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="15dp"
+                    android:textStyle="bold"
+                    android:text="Malignant"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp"
+                    android:paddingBottom="5dp"/>
+
+                <TextView
+                    android:id="@+id/subheading1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/heading1"
+                    android:paddingTop="15dp"
+                    android:text="Bowen's Disease"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp"
+                    android:paddingBottom="5dp"/>
+
+                <TextView
+                    android:id="@+id/text1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/subheading1"
+                    android:paddingTop="5dp"
+                    android:text="A very early form of skin cancer that's easily treatable. The main sign is a red, scaly patch on the skin."
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    android:paddingBottom="5dp"/>
+                <TextView
+                    android:id="@+id/subheading2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/text1"
+                    android:paddingTop="15dp"
+                    android:text="Basal Cell Carcinoma"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp"
+                    android:paddingBottom="5dp"/>
+
+                <TextView
+                    android:id="@+id/text2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/subheading2"
+                    android:paddingTop="5dp"
+                    android:text="A cancer that grows on parts of your skin that get a lot of sun. The least risky type of skin cancer. As long as you catch it early, you can be cured."
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    android:paddingBottom="5dp"/>
+
+                <TextView
+                    android:id="@+id/subheading3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/text2"
+                    android:paddingTop="15dp"
+                    android:text="Melanoma"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp"
+                    android:paddingBottom="5dp"/>
+
+                <TextView
+                    android:id="@+id/text3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/subheading3"
+                    android:paddingTop="5dp"
+                    android:text="A skin cancer that starts in melanocyte cells of the skin. A cancerous (malignant) tumour is a group of cancer cells that can grow into and destroy nearby tissue. It can also spread (metastasize) to other parts of the body."
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    android:paddingBottom="5dp"/>
+
+                <TextView
+                    android:id="@+id/heading2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/text3"
+                    android:paddingTop="15dp"
+                    android:textStyle="bold"
+                    android:text="Benign"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp"
+                    android:paddingBottom="20dp"/>
+
+                <TextView
+                    android:id="@+id/subheading4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/heading2"
+                    android:paddingTop="15dp"
+                    android:text="Benign Keratosis-Like Lesions"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp"
+                    android:paddingBottom="5dp"/>
+
+                <TextView
+                    android:id="@+id/text4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/subheading4"
+                    android:paddingTop="5dp"
+                    android:text="Often appear on the back or chest, but can occur on any part of the body. Most people will develop at least one during their lifetime."
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    android:paddingBottom="5dp"/>
+
+                <TextView
+                    android:id="@+id/subheading5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/text4"
+                    android:paddingTop="15dp"
+                    android:text="Dermatofibroma"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp"
+                    android:paddingBottom="5dp"/>
+
+                <TextView
+                    android:id="@+id/text5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/subheading5"
+                    android:paddingTop="5dp"
+                    android:text="A common benign fibrous nodule that most often arises on the skin of the lower legs."
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    android:paddingBottom="5dp"/>
+
+                <TextView
+                    android:id="@+id/subheading6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/text5"
+                    android:paddingTop="15dp"
+                    android:text="Melanocytic Nevi"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp"
+                    android:paddingBottom="5dp"/>
+
+                <TextView
+                    android:id="@+id/text6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/subheading6"
+                    android:paddingTop="5dp"
+                    android:text="Benign neoplasms or hamartomas composed of melanocytes. The majority of moles appear during the first two decades of a person's life."
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    android:paddingBottom="20dp"/>
+            </RelativeLayout>
+
+        </ScrollView>
+
+    </RelativeLayout>
+
+
+</android.support.constraint.ConstraintLayout>
