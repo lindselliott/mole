@@ -12,6 +12,8 @@ import android.provider.MediaStore
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class ImageUtils {
@@ -132,5 +134,25 @@ class ImageUtils {
         fun deleteImage(imagePath: String) {
             File(imagePath).delete()
         }
+
+        fun createImageFile(context: Context, extension: String): File {
+            var extension = extension
+
+            if (extension == "jpg") {
+                extension = "jpeg"
+            }
+
+            val directory = File(context.filesDir, "attachments")
+            directory.mkdir()
+
+            // Create an image file name
+            val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+            val imageFileName = "ATTACH_$timeStamp.$extension"
+
+            return File(directory, imageFileName)
+        }
     }
+
+
+
 }
