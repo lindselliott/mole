@@ -10,6 +10,7 @@
         <item name="android:background">@color/white</item>
     </style>
 
+    // This is the app bar styles
     <style name="appBar">
         <item name="android:textColorSecondary">@color/white</item>
         <item name="android:background">@color/colorPrimary</item>
@@ -17,6 +18,11 @@
 
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">54dp</item>
+    </style>
+
+    // Text input styles
+    <style name="textInput">
+        <item name="android:textColor">@color/red</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
