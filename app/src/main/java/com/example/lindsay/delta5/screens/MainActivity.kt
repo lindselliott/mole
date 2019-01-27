@@ -31,6 +31,10 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(appBar) // appBar is the id of the toolbar in the layout file
 
         Log.d("Delta", "In main")
+
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, DashboardFragment())
+                .commit()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -85,6 +89,7 @@ class MainActivity : AppCompatActivity() {
 
                     supportFragmentManager.beginTransaction()
                             .replace(R.id.fragment_container, MoleInfoFragment())
+                            .addToBackStack(null)
                             .commit()
 
                     filePath = null
