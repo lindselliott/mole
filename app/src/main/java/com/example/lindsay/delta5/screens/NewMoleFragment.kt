@@ -50,4 +50,11 @@ class NewMoleFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.new_entry_fragment, container, false)
     }
+
+    companion object {
+        @JvmStatic
+        fun newInstance() =
+                NewMoleFragment()
+
+    }
 }
