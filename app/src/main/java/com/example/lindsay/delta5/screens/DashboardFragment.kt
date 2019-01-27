@@ -50,17 +50,18 @@ class DashboardFragment : Fragment() {
         mainActivity = activity as MainActivity
 
         add_new_mole.setOnClickListener {
-//            mainActivity.switchFragment(MainActivity.Screen.MOLE_INFO)
+
+            mainActivity.switchFragment(MainActivity.Screen.MOLE_INFO)
 //            mainActivity.sendCameraIntent()
 
             // For testing this is going to create a new mole and add it to the database
-            MoleModel.saveMole((mainActivity.application as Application).getRealm(), Mole(
-                    _ID = UUID.randomUUID().toString(),
-                    moleName = "Lucas",
-                    bodyLocation = "Arm",
-                    notes = "This is a mole",
-                    date = System.currentTimeMillis()
-            ))
+//            MoleModel.saveMole((mainActivity.application as Application).getRealm(), Mole(
+//                    _ID = UUID.randomUUID().toString(),
+//                    moleName = "Lucas",
+//                    bodyLocation = "Arm",
+//                    notes = "This is a mole",
+//                    date = System.currentTimeMillis()
+//            ))
         }
 
         moleAdapter = MoleHistoryPlantAdapter((mainActivity.application as Application).moles)

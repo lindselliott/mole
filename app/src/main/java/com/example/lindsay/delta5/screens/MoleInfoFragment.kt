@@ -26,6 +26,8 @@ import com.example.lindsay.delta5.entities.Mole
 import com.example.lindsay.delta5.models.MoleModel
 import com.example.lindsay.delta5.utils.DateUtils
 import com.example.lindsay.delta5.utils.ImageUtils
+import io.realm.RealmObject
+import kotlinx.android.synthetic.main.mole_info_fragment.*
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -59,20 +61,37 @@ class MoleInfoFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        mainActivity = activity as MainActivity
+
+        if(arguments != null && !arguments!!.isEmpty) {
+            Log.d("deltahacks", "There are arguments so set up the mole from the database")
+        } else {
+            Log.d("deltahacks", "This is a new mole so create a new mole")
+            val moleID = UUID.randomUUID().toString()
+
+            MoleModel.saveMole( (mainActivity.application as Application).getRealm(), Mole(_ID = moleID, date = DateUtils.currentDate()))
+            mole = MoleModel.getMole((mainActivity.application as Application).getRealm(), moleID)
+        }
+
+        mole!!.addChangeListener<RealmObject> { _ ->
+            mole_image.setImageBitmap(ImageUtils.getImageBitmap(mole!!.imagePath))
+        }
+
+        sendCameraIntent()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View {
         // Inflate the layout for this fragment
-
-        mainActivity = activity as MainActivity
-
         val view: View = inflater.inflate(R.layout.mole_info_fragment, container, false)
 
         imageView = view.findViewById(R.id.mole_image)
 
-        sendCameraIntent()
+        return view
+    }
 
-        return view;
+    override fun onResume() {
+        super.onResume()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -82,9 +101,7 @@ class MoleInfoFragment : Fragment() {
                 var imageFile: File? = null
                 var selectedImage: Uri? = null
 
-
                 Log.d("Delta", "image taken ")
-                //Log.d("deltahacks", filePath)
 
 
                 if (resultCode == Activity.RESULT_OK) {
@@ -119,21 +136,12 @@ class MoleInfoFragment : Fragment() {
 
                     // use imageFile
 
-                    val uuid = UUID.randomUUID().toString()
-
                     if (imageFile != null) {
                         Log.d("Delta", "image exists ")
 
-                        var mole = Mole(
-                                uuid,
-                                "name_placeholder",
-                                "body_placeholder",
-                                "notes_holder",
-                                imageFile.absolutePath,
-                                DateUtils.currentDate()
-                        )
-
-                        MoleModel.saveMole( (mainActivity.application as Application).getRealm(), mole)
+                        (mainActivity.application as Application).getRealm().beginTransaction()
+                        mole!!.imagePath = imageFile.absolutePath
+                        (mainActivity.application as Application).getRealm().commitTransaction()
                     }
 
 
@@ -145,17 +153,9 @@ class MoleInfoFragment : Fragment() {
                     filePath = null
                     mImageUri = null
 
-                    var frag = MoleInfoFragment()
-                    var bundle = Bundle();
-                    bundle.putString(MoleInfoFragment.MOLE_KEY, uuid)
-                    frag.arguments = bundle
-
-
-                    Log.d("deltahacks", "onActivityResult - frag ready")
-
                     filePath = null
                     mImageUri = null
-                    // return
+                    return
                 }
 
             }
