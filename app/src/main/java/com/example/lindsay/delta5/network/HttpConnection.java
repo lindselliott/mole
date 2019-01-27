@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -50,7 +51,11 @@ public class HttpConnection
                 = MediaType.get("application/octet-stream");
 
 
-        OkHttpClient client = new OkHttpClient();
+        OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(30*1000, TimeUnit.MILLISECONDS)
+                .readTimeout(15*1000, TimeUnit.MILLISECONDS)
+                .writeTimeout(10*1000, TimeUnit.MILLISECONDS)
+                .build();
 
 
         public void post(File file, Context context)  {
@@ -89,13 +94,18 @@ public class HttpConnection
                 try (Response response = client.newCall(request[0]).execute()) {
 
                     String respStr = response.body().string();
+                    Log.d("deltahacks", respStr);
+
+
+                    if (response.code() != 200) {
+                        return null;
+                    }
 
                     Gson gson = new GsonBuilder()
                             .registerTypeAdapter(HttpResponce.class, new ResponceDeserializer())
                             .registerTypeAdapter(HttpResponce.Prediction.class, new PredictionDeserializer())
                             .create();
 
-                    Log.d("deltahacks", respStr);
 
                     HttpResponce data = gson.fromJson(respStr, HttpResponce.class);
 
