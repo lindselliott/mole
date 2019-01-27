@@ -74,12 +74,13 @@ class MainActivity : AppCompatActivity() {
             }
             fragment.arguments = bundle
         }
-        
+
+        fragmentTransaction.replace(R.id.fragment_container, fragment)
+
         if(addToBackStack) {
             fragmentTransaction.addToBackStack(null)
         }
 
-        fragmentTransaction.replace(R.id.fragment_container, fragment)
         fragmentTransaction.commit()
 
     }

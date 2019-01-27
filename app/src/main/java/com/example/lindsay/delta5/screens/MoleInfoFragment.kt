@@ -67,19 +67,21 @@ class MoleInfoFragment : Fragment() {
 
         if(arguments != null && !arguments!!.isEmpty) {
             Log.d("deltahacks", "There are arguments so set up the mole from the database")
+            mole = (mainActivity.application as Application).moles.where().equalTo("_ID", arguments!!.getString("id")).findFirst()!!
+            imageView.setImageBitmap(ImageUtils.getImageBitmap(mole!!.imagePath, 150))
         } else {
             Log.d("deltahacks", "This is a new mole so create a new mole")
             val moleID = UUID.randomUUID().toString()
 
             MoleModel.saveMole( (mainActivity.application as Application).realm, Mole(_ID = moleID, date = DateUtils.currentDate()))
             mole = MoleModel.getMole((mainActivity.application as Application).realm, moleID)
+
+            sendCameraIntent()
         }
 
         mole!!.addChangeListener<RealmObject> { _ ->
             mole_image.setImageBitmap(ImageUtils.getImageBitmap(mole!!.imagePath))
         }
-
-        sendCameraIntent()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View {
