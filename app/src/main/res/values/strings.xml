@@ -16,6 +16,9 @@
     <string name="password">Password</string>
     <string name="confirm_password">Confirm Password</string>
 
+    // Menu
+    <string name="save">Save</string>
+
     <string-array name="sex_type">
         <item>Male</item>
         <item>Female</item>

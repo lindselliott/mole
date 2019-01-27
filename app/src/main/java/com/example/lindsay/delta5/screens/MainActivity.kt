@@ -11,6 +11,7 @@ import android.provider.MediaStore
 import android.support.v4.app.Fragment
 import android.support.v4.content.FileProvider
 import android.util.Log
+import android.view.Menu
 import android.view.MenuItem
 import com.example.lindsay.delta5.Application
 import com.example.lindsay.delta5.entities.Mole
@@ -37,8 +38,7 @@ class MainActivity : AppCompatActivity() {
     private val fragments: MutableMap<Screen, Fragment> = HashMap()
 
     private lateinit var deltaApplication: Application
-
-    private  var frag: Fragment? = null
+    open var menu: Menu? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -85,9 +85,20 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_activity_main, menu)
+        this.menu = menu
+
+        return true
+    }
+
     override fun onOptionsItemSelected(item: MenuItem?) = when (item?.itemId) {
         R.id.action_profile -> {
             switchFragment(Screen.PROFILE, true)
+            true
+        }
+        R.id.save_mole -> {
+            (supportFragmentManager.findFragmentById(R.id.fragment_container) as MoleInfoFragment).saveMole()
             true
         }
         android.R.id.home -> {
