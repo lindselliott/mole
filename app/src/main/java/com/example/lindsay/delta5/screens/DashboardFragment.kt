@@ -1,6 +1,7 @@
 package com.example.lindsay.delta5.screens
 
 import android.content.Intent
+import android.content.res.AssetManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -15,6 +16,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import com.example.lindsay.delta5.screens.MainActivity
 import com.example.lindsay.delta5.R
+import com.example.lindsay.delta5.utils.HttpConnection
 import com.example.lindsay.delta5.utils.ImageUtils
 import kotlinx.android.synthetic.main.fragment_dashboard.view.*
 import java.io.File
@@ -31,6 +33,8 @@ class DashboardFragment : Fragment() {
 
     lateinit var profileButton: Button
     lateinit var checkMoleButton: Button
+    lateinit var uploadButton: Button
+
     lateinit var mainActivity: MainActivity
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -40,6 +44,8 @@ class DashboardFragment : Fragment() {
 
         profileButton = activity!!.findViewById(R.id.profile_button)
         checkMoleButton = activity!!.findViewById(R.id.check_mole_button)
+
+        uploadButton = activity!!.findViewById(R.id.upload)
 
         profileButton.setOnClickListener {
             mainActivity.supportFragmentManager.beginTransaction()
@@ -55,7 +61,23 @@ class DashboardFragment : Fragment() {
                     .commit()
         }
 
+        uploadButton.setOnClickListener {
+
+
+            var am: AssetManager = mainActivity.assets
+
+            am.openFd("mole_tmp.jpg")
+
+            var f:File =  ImageUtils.createImageFile(mainActivity, "jpeg");
+
+            HttpConnection.writeBytesToFile(am.open("mole_tmp.jpg"), f)
+
+            HttpConnection().post(f)
+        }
+
     }
+
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View {
         // Inflate the layout for this fragment
