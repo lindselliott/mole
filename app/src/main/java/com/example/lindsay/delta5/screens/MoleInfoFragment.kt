@@ -58,7 +58,6 @@ class MoleInfoFragment : Fragment() {
 
     private var mole: Mole? = null
 
-    lateinit var imageView: ImageView
     lateinit var mainActivity: MainActivity
 
     private var isEditMode = false
@@ -69,14 +68,18 @@ class MoleInfoFragment : Fragment() {
         mainActivity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         // Reset the fields
+        mole_image.setImageResource(0)
         mole_location_field.setText("")
         mole_nickname_field.setText("")
         mole_date_taken_field.setText("")
+        details_field.setText("")
 
         if(arguments != null && !arguments!!.isEmpty) {
             Log.d("deltahacks", "There are arguments so set up the mole from the database")
             mole = (mainActivity.application as Application).moles.where().equalTo("_ID", arguments!!.getString("id")).findFirst()!!
-            imageView.setImageBitmap(ImageUtils.getImageBitmap(mole!!.imagePath, 150))
+
+            mole_image.setImageBitmap(ImageUtils.getImageBitmap(mole!!.imagePath, 150))
+            Log.d("deltahacks", "Mole: ${mole}")
         } else {
             Log.d("deltahacks", "This is a new mole so create a new mole")
             val moleID = UUID.randomUUID().toString()
@@ -84,10 +87,10 @@ class MoleInfoFragment : Fragment() {
             MoleModel.saveMole( (mainActivity.application as Application).realm, Mole(_ID = moleID, date = DateUtils.currentDate()))
             mole = MoleModel.getMole((mainActivity.application as Application).realm, moleID)
 
-            mole_location_field.isEnabled = true
-            mole_nickname_field.isEnabled = true
-
             isEditMode = true
+
+            mole_nickname_field.isEnabled = isEditMode
+            mole_location_field.isEnabled = isEditMode
 
             sendCameraIntent()
         }
@@ -95,6 +98,7 @@ class MoleInfoFragment : Fragment() {
         if(mainActivity.menu != null) {
             mainActivity.menu!!.findItem(R.id.action_profile).isVisible = false
             mainActivity.menu!!.findItem(R.id.save_mole).isVisible = isEditMode
+            mainActivity.menu!!.findItem(R.id.edit_mole).isVisible = !isEditMode
         }
 
         mole_location_field.setText(mole!!.bodyLocation)
@@ -102,8 +106,21 @@ class MoleInfoFragment : Fragment() {
         mole_date_taken_field.setText(DateUtils.getFormattedStringFromEpochTime(mole!!.date!!))
 
         mole!!.addChangeListener<RealmObject> { _ ->
-            mole_image.setImageBitmap(ImageUtils.getImageBitmap(mole!!.imagePath))
+            Log.d("deltahacks", "Mole Image: ${mole_image}")
+            mole_image.setImageBitmap(ImageUtils.getImageBitmap(mole!!.imagePath, 150))
         }
+    }
+
+    open fun toggleEditMode() {
+        isEditMode = !isEditMode
+
+        if(mainActivity.menu != null) {
+            mainActivity.menu!!.findItem(R.id.save_mole).isVisible = isEditMode
+            mainActivity.menu!!.findItem(R.id.edit_mole).isVisible = !isEditMode
+        }
+
+        mole_nickname_field.isEnabled = isEditMode
+        mole_location_field.isEnabled = isEditMode
     }
 
     open fun saveMole() {
@@ -124,8 +141,6 @@ class MoleInfoFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View {
         // Inflate the layout for this fragment
         val view: View = inflater.inflate(R.layout.mole_info_fragment, container, false)
-
-        imageView = view.findViewById(R.id.mole_image)
 
         return view
     }
@@ -177,7 +192,7 @@ class MoleInfoFragment : Fragment() {
 
 
                     if (mole != null) {
-                        imageView.setImageBitmap(ImageUtils.getImageBitmap(mole!!.imagePath, 150))
+                        mole_image.setImageBitmap(ImageUtils.getImageBitmap(mole!!.imagePath, 150))
                     }
 
 

@@ -16,4 +16,12 @@
         app:showAsAction="always"
         />
 
+    <item
+        android:id="@+id/edit_mole"
+        android:title="@string/edit"
+        android:icon="@drawable/edit_icon"
+        android:visible="false"
+        app:showAsAction="always"
+        />
+
 </menu>

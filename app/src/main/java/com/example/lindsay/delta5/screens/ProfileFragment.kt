@@ -16,12 +16,14 @@ import com.example.lindsay.delta5.entities.User
 import com.example.lindsay.delta5.models.UserModel
 
 class ProfileFragment : Fragment() {
-    private lateinit var application: Application
     lateinit var user: User
+    lateinit var mainActivity: MainActivity
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        var mainActivity = activity as MainActivity
+        mainActivity = activity as MainActivity
+        mainActivity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         user = (mainActivity.application as Application).user!!
 
         setAllFields()
@@ -33,11 +35,6 @@ class ProfileFragment : Fragment() {
 
 
         return inflater.inflate(R.layout.fragment_profile, container, false)
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        saveUser()
     }
 
     private fun setAllFields() {
@@ -52,8 +49,8 @@ class ProfileFragment : Fragment() {
         )
     }
 
-    private fun saveUser(): Boolean {
-        val age = if (age_text.text.toString().isBlank()) "" else  age_text.text.toString()
+    open fun saveUser(): Boolean {
+        val age = if (age_text == null || age_text.text.toString().isBlank()) "" else  age_text.text.toString()
         val sex = sex_spinner.selectedItemPosition
 
 
@@ -63,7 +60,7 @@ class ProfileFragment : Fragment() {
                 sex
         )
 
-        return UserModel.saveUser(application.realm, userToSave)
+        return UserModel.saveUser((mainActivity.application as Application).realm, userToSave)
     }
 
 
