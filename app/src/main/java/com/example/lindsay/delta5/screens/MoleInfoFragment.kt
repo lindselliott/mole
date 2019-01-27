@@ -42,4 +42,11 @@ class MoleInfoFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.mole_info_fragment, container, false)
     }
+
+    companion object {
+        @JvmStatic
+        fun newInstance() =
+                MoleInfoFragment()
+
+    }
 }

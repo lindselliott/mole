@@ -8,6 +8,7 @@ import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.support.v4.app.Fragment
 import android.support.v4.content.FileProvider
 import android.util.Log
 
@@ -20,6 +21,16 @@ import java.io.IOException
 
 class MainActivity : AppCompatActivity() {
 
+    enum class Screen {
+        DASHBOARD,
+        NEW_ENTRY,
+        MOLE_INFO,
+        HISTORY,
+        PROFILE
+    }
+
+    private val fragments: MutableMap<Screen, Fragment> = HashMap()
+
     private val REQUEST_IMAGE_CAPTURE = 1
 
     private var mImageUri: Uri? = null
@@ -30,11 +41,35 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(appBar) // appBar is the id of the toolbar in the layout file
 
-        Log.d("Delta", "In main")
+        initFragments()
+    }
 
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, DashboardFragment())
-                .commit()
+    private fun initFragments() {
+        fragments[Screen.DASHBOARD] = DashboardFragment.newInstance()
+        fragments[Screen.NEW_ENTRY] = NewMoleFragment.newInstance()
+        fragments[Screen.MOLE_INFO] = MoleInfoFragment.newInstance()
+        fragments[Screen.HISTORY] = MoleInfoFragment.newInstance() // FIXME
+        fragments[Screen.PROFILE] = ProfileFragment.newInstance()
+
+        switchFragment(Screen.DASHBOARD)
+    }
+
+    private fun switchFragment(screen: Screen, vararg params: String) {
+
+        val fragment = fragments[screen] ?: return
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+
+        // Set params if present
+        if (params.isNotEmpty()) {
+            val bundle = Bundle()
+            for (i in params.indices) {
+                bundle.putString("PARAM" + (i + 1), params[i])
+            }
+            fragment.arguments = bundle
+        }
+        fragmentTransaction.replace(R.id.fragment_container, fragment)
+        fragmentTransaction.commit()
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

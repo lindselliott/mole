@@ -61,4 +61,11 @@ class DashboardFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_dashboard, container, false)
     }
+
+    companion object {
+        @JvmStatic
+        fun newInstance() =
+                DashboardFragment()
+
+    }
 }
