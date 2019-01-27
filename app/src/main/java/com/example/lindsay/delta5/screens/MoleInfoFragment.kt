@@ -34,6 +34,9 @@ class MoleInfoFragment : Fragment() {
 
     companion object {
         val MOLE_KEY = "MOLE_KEY"
+        @JvmStatic
+        fun newInstance() =
+                MoleInfoFragment()
     }
 
     lateinit var mainActivity: MainActivity
@@ -65,12 +68,5 @@ class MoleInfoFragment : Fragment() {
         }
 
         return view;
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance() =
-                MoleInfoFragment()
-
     }
 }
