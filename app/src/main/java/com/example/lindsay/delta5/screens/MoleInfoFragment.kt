@@ -90,19 +90,12 @@ class MoleInfoFragment : Fragment() {
         return view
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
             REQUEST_IMAGE_CAPTURE -> {
 
                 var imageFile: File? = null
                 var selectedImage: Uri? = null
-
-                Log.d("Delta", "image taken ")
-
 
                 if (resultCode == Activity.RESULT_OK) {
 
@@ -137,8 +130,6 @@ class MoleInfoFragment : Fragment() {
                     // use imageFile
 
                     if (imageFile != null) {
-                        Log.d("Delta", "image exists ")
-
                         (mainActivity.application as Application).getRealm().beginTransaction()
                         mole!!.imagePath = imageFile.absolutePath
                         (mainActivity.application as Application).getRealm().commitTransaction()
@@ -161,7 +152,6 @@ class MoleInfoFragment : Fragment() {
             }
         }
         if (resultCode == AppCompatActivity.RESULT_CANCELED && filePath != null) {
-            Log.d("Delta", "Deleting temp file after cancel.")
             ImageUtils.deleteImage(filePath!!)
         }
     }
@@ -170,8 +160,6 @@ class MoleInfoFragment : Fragment() {
 
         val file = ImageUtils.createImageFile(mainActivity, "jpeg")
         filePath = file.getAbsolutePath()
-
-        Log.d("deltahacks", filePath)
 
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
@@ -183,7 +171,6 @@ class MoleInfoFragment : Fragment() {
             for (resolvedIntentInfo in activities) {
                 val packageName = resolvedIntentInfo.activityInfo.packageName
                 mainActivity.grantUriPermission(packageName, mImageUri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
-                Log.d("CAMERA_TEST", "grant  permissions to: $packageName")
             }
 
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri)

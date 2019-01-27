@@ -7,6 +7,7 @@
     android:layout_height="match_parent">
 
     <TextView
+        style="@style/textInput"
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -16,6 +17,7 @@
         app:layout_constraintTop_toBottomOf="@+id/mole_image"/>
 
     <TextView
+        style="@style/textInput"
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -25,6 +27,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView"/>
 
     <TextView
+        style="@style/textInput"
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -34,6 +37,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView2"/>
 
     <TextView
+        style="@style/textInput"
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
