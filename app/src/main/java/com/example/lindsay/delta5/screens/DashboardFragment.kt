@@ -45,7 +45,7 @@ class DashboardFragment : Fragment() {
         mainActivity = activity as MainActivity
 
         add_new_mole.setOnClickListener {
-            mainActivity.sendCameraIntent()
+            mainActivity.switchFragment(MainActivity.Screen.MOLE_INFO)
         }
 
 //        moleAdapter = MoleHistoryPlantAdapter(mainActivity.application.getMoles())
