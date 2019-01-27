@@ -1,8 +1,11 @@
 package com.example.lindsay.delta5.network;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -31,7 +34,7 @@ public class HttpConnection
 
     public static String AI_RESPONCE_ACTION = "com.example.linday.delta5.AI_RESPONCE_ACTION";
     public static String PREDICTIONS_EXTRA = "PREDICTIONS_EXTRA";
-
+    public static String SUCCESS_EXTRA = "SUCCESS_EXTRA";
 
 
     //  public void makeConnection() {
@@ -49,8 +52,7 @@ public class HttpConnection
         OkHttpClient client = new OkHttpClient();
 
 
-        public void post(File file, Context context) throws IOException {
-
+        public void post(File file, Context context)  {
 
             RequestBody body = RequestBody.create(OCTETSTREAM, file);
 
@@ -73,6 +75,11 @@ public class HttpConnection
             public Task(Context context) {
 
                 this.context = context;
+
+                if (ContextCompat.checkSelfPermission(context, Manifest.permission.INTERNET)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    Log.d("deltahacks", "no permissions");
+                }
             }
 
             @Override
@@ -80,14 +87,12 @@ public class HttpConnection
 
                 try (Response response = client.newCall(request[0]).execute()) {
 
-
                     String respStr = response.body().string();
 
                     Gson gson = new GsonBuilder()
                             .registerTypeAdapter(HttpResponce.class, new ResponceDeserializer())
                             .registerTypeAdapter(HttpResponce.Prediction.class, new PredictionDeserializer())
                             .create();
-
 
                     Log.d("deltahacks", respStr);
 
@@ -97,11 +102,10 @@ public class HttpConnection
                         Log.d("deltahacks", data.predictions[i].tag + " : " + data.predictions[i].probability);
                     }
 
-
                     return data;
                 }
                 catch (IOException e) {
-                    e.printStackTrace();
+                    Log.e("deltahacks", "err", e);
                 }
 
                 return null;
@@ -111,19 +115,22 @@ public class HttpConnection
             protected void onPostExecute(HttpResponce httpResponce) {
                 super.onPostExecute(httpResponce);
 
+                Intent intent = new Intent(AI_RESPONCE_ACTION);
+
                 if (httpResponce == null) {
-                    Log.d("deltahacks", "error with the http responce");
+                    Log.d("deltahacks", "error with the http response");
+
+                    intent.putExtra(SUCCESS_EXTRA, false);
+                } else {
+                    ArrayList<HttpResponce.Prediction> arrayList = new ArrayList<HttpResponce.Prediction>(Arrays.asList(httpResponce.predictions));
+
+                    intent.putParcelableArrayListExtra(PREDICTIONS_EXTRA, arrayList);
+                    intent.putExtra(SUCCESS_EXTRA, true);
                 }
 
-                Intent intent = new Intent(AI_RESPONCE_ACTION);
-                ArrayList<HttpResponce.Prediction> arrayList = new ArrayList<HttpResponce.Prediction>(Arrays.asList(httpResponce.predictions));
-
-                intent.putParcelableArrayListExtra(PREDICTIONS_EXTRA, arrayList);
                 context.sendBroadcast(intent);
-
             }
         }
-
 
     public static void writeBytesToFile(InputStream is, File file) throws IOException {
         FileOutputStream fos = null;

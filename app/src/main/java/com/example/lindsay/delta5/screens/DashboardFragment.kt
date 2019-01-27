@@ -86,9 +86,6 @@ class DashboardFragment : Fragment() {
 
 
             var am: AssetManager = mainActivity.assets
-
-            am.openFd("mole_tmp.jpg")
-
             var f:File =  ImageUtils.createImageFile(mainActivity, "jpeg");
 
             HttpConnection.writeBytesToFile(am.open("mole_tmp.jpg"), f)

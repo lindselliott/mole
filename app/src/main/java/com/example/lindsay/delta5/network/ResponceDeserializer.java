@@ -34,7 +34,8 @@ public class ResponceDeserializer implements JsonDeserializer<HttpResponce>
         HttpResponce.Prediction[] predictions = context.deserialize(list, HttpResponce.Prediction[].class);
 
 
-        return new HttpResponce(id, project, iteration, created, predictions);
+
+        return new HttpResponce(id, project, iteration, created, predictions == null ? new HttpResponce.Prediction[]{} : predictions);
     }
 }
 
